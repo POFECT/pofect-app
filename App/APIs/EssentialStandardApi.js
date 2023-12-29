@@ -1,4 +1,4 @@
-import { axiosApi } from "./api";
+import { axiosApi } from "../../../../Factory-Decision-System/frontend/src/api/api";
 
 const EssentialStandardApi = {
   getEssentialStandardList: async (callback) => {
