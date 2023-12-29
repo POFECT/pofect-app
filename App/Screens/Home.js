@@ -4,6 +4,8 @@ import Animated, { useSharedValue, withSpring, useAnimatedStyle, withTiming } fr
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {StatusBar} from "expo-status-bar";
 
+import {LinearGradient} from "expo-linear-gradient";
+
 export default function Home() {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -46,14 +48,13 @@ export default function Home() {
     });
 
     const renderTabBar = (props) => (
+
         <TabBar
             {...props}
             indicatorStyle={{ backgroundColor: 'white' }}
             style={{ backgroundColor: '#2ecc71' }}
         />
     );
-
-
 
     const opacity = useSharedValue(0);
     const translateY = useSharedValue(100);
@@ -76,7 +77,9 @@ export default function Home() {
 
         <View style={styles.container}>
             <StatusBar />
-
+            <View>
+                <Text>검색창</Text>
+            </View>
             <TabView
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
@@ -91,8 +94,7 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#09537F',
-        marginTop: StatusBar.currentHeight || 0,
+        backgroundColor: '#F8F8FA',
 
     },
     content: {

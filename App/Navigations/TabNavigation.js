@@ -1,7 +1,9 @@
 import React from 'react';
+import { Text, StyleSheet} from 'react-native';
+
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Home from '../Screens/Home';
-import Appointment from '../Screens/Appointment';
+import OrderSearch from "../Screens/OrderSearch";
 import Profile from '../Screens/Profile';
 import Dashboard from '../Screens/Dashboard'; // 대시보드 컴포넌트 import
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -14,21 +16,30 @@ export default function TabNavigation() {
             initialRouteName="Home"
             shifting={true}
             barStyle={{
-                backgroundColor: 'transparent',
-                // borderTopWidth: 0, // 상단 테두리 제거
-                // elevation: 0, // Android 그림자 제거
+                backgroundColor: 'white',
+                // borderTopWidth: 1, // 상단 테두리 제거
+                elevation:3,
+                borderRadius:2,
+
             }}
             activeColor="#09537F"
             inactiveColor="#757575"
-            labeled={false}
+            labelStyle= {{
+            fontSize: 10,
+            fontFamily:'Inter-Black',
+           }}
+            // labeled={false}
+
         >
             <Tab.Screen
                 name="Home"
                 component={Home}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="home" size={24} color={color} />
+                        <FontAwesome5 name="home" size={20} color={color} />
                     ),
+                    tabBarLabel: <Text style={styles.tabBarLabel}>Home</Text>
+,
                 }}
             />
 
@@ -37,18 +48,22 @@ export default function TabNavigation() {
                 component={Dashboard}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="chart-bar" size={24} color={color} />
+                        <FontAwesome5 name="chart-bar" size={20} color={color} />
                     ),
+                    tabBarLabel: <Text style={styles.tabBarLabel}>Dashboard</Text>
+
                 }}
             />
 
             <Tab.Screen
-                name="Calendar"
-                component={Appointment}
+                name="OrderSearchTab"
+                component={OrderSearch}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="calendar-alt" size={24} color={color} />
+                        <FontAwesome5 name="search" size={20} color={color} />
                     ),
+                    tabBarLabel: <Text style={styles.tabBarLabel}>OrderSearch</Text>
+
                 }}
             />
 
@@ -57,10 +72,24 @@ export default function TabNavigation() {
                 component={Profile}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="user-cog" size={24} color={color} />
+                        <FontAwesome5 name="user-cog" size={20} color={color} />
                     ),
+                    tabBarLabel: <Text style={styles.tabBarLabel}>Home</Text>
+
                 }}
             />
         </Tab.Navigator>
+
     );
 }
+
+
+const styles = StyleSheet.create({
+    tabBarLabel: {
+        fontSize: 12,
+        color: 'black',
+        textAlign: 'center',
+        fontFamily: 'Inter-Black',
+        fontWeight: 'bold',
+    },
+});

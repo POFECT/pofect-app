@@ -68,7 +68,7 @@ export default function Login({navigation}) {
                 <Text style={styles.secondText}>Factory Decision System</Text>
 
             </View>
-            <Shadow style={styles.shadow}>
+            <View style={styles.shadow}>
                 {/*<View style={styles.contentBox}>*/}
                     <GradientText text="Experience the Factory Decision System on your mobile device for an efficient workflow" style={styles.semiText} />
                     {/*<MaskedView maskElement={ <Text style ={[styles.semiText, {backgroundColor:'transparent'} ]}>"abc"</Text>*/}
@@ -115,14 +115,13 @@ export default function Login({navigation}) {
                         </LinearGradient>
                     </View>
                 {/*</View>*/}
-            </Shadow>
+            </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "red",
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
@@ -134,7 +133,6 @@ const styles = StyleSheet.create({
         width: '160%',
         // height: Size.height * 0.7,
         position: 'relative',
-
     },
     video: {
         objectFit:'contain',
@@ -145,12 +143,11 @@ const styles = StyleSheet.create({
         // borderRadius: Size.width,
     },
     shadow: {
-            backgroundColor: Colors.WHITE,
-
+        backgroundColor: Colors.WHITE,
         width: Size.width * 0.85,
-        marginTop: -Size. height * 0.1,
+        marginTop: -Size. height * 0.05,
         // height: Size.height  * 0.3,
-        transform: [{ translateY: -Size.height*0.06 }],
+        transform: [{ translateY: -Size.height*0.1 }],
         padding: 35,
         borderRadius: Size.width * 0.1,
         overflow: 'hidden',
@@ -161,14 +158,14 @@ const styles = StyleSheet.create({
                 shadowColor: "#000",
                 shadowOffset: {
                     width: 0,
-                    height: 2,
+                    height: 4,
                 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
+                shadowOpacity: 0.30,
+                shadowRadius: 4.65,
 
             },
             android: {
-                elevation: 5,
+                elevation: 8,
             },
         })
     },
@@ -184,34 +181,34 @@ const styles = StyleSheet.create({
     //     overflow: 'hidden',
     //     alignItems: 'center',
     // },
+
     text: {
         textAlign: 'center',
         fontSize: Size.width * 0.17,
         color: Colors.WHITE,
-        fontFamily: 'Extra-Black',
+        fontFamily: 'TheJamsil6ExtraBold',
         // marginTop: 10,
         position: 'absolute',
-        transform: [{ translateX: Size.width*0.35 }, { translateY: Size.height*0.3 }],
+        transform: [{ translateX: Size.width*0.35 }, { translateY: Size.height*0.4 }],
     },
     secondText: {
         textAlign: 'center',
         fontSize: Size.width * 0.065,
         color: Colors.WHITE,
-        fontFamily: 'Extra-Black',
+        fontFamily: 'TheJamsil5Bold',
         marginTop: 10,
         position: 'absolute',
-        transform: [{ translateX: Size.width*0.36 }, { translateY: Size.height*0.37 }],
+        transform: [{ translateX: Size.width*0.36 }, { translateY: Size.height*0.47 }],
     },
     semiText: {
         textAlign: 'center',
         fontSize: Size.width * 0.035,
-        marginTop: 5,
+        marginTop: 3,
         marginBottom: Size.width * 0.1,
         color: Colors.PRIMARY,
-        fontFamily: 'Regular-Black',
+        fontFamily: 'TheJamsil3Regular',
     },
     loginForm: {
-
         // marginTop: Size.height * 0.05,
         width: '100%',
     },
@@ -226,10 +223,10 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     input: {
-        fontSize: 15,
+        fontSize: 12,
         color: Colors.PRIMARY,
         flex: 1,
-        fontFamily: 'Light-Black',
+        fontFamily: 'TheJamsil2Light',
     },
     loginButton: {
         backgroundColor: Colors.PRIMARY,
@@ -240,7 +237,7 @@ const styles = StyleSheet.create({
     },
     loginButtonText: {
         color: Colors.WHITE,
-        fontSize: 18,
-        fontFamily: 'Inter-Black',
+        fontSize: 16,
+        fontFamily: 'TheJamsil4Medium',
     },
 });
