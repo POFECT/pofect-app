@@ -4,7 +4,7 @@ import { Text, StyleSheet} from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Home from '../Screens/Home';
 import OrderSearch from "../Screens/OrderSearch";
-import Profile from '../Screens/Profile';
+import Setting from '../Screens/Setting';
 import Dashboard from '../Screens/Dashboard'; // 대시보드 컴포넌트 import
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -24,10 +24,7 @@ export default function TabNavigation() {
             }}
             activeColor="#09537F"
             inactiveColor="#757575"
-            labelStyle= {{
-            fontSize: 10,
-            fontFamily:'Inter-Black',
-           }}
+
             // labeled={false}
 
         >
@@ -38,7 +35,7 @@ export default function TabNavigation() {
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="home" size={20} color={color} />
                     ),
-                    tabBarLabel: <Text style={styles.tabBarLabel}>Home</Text>
+                    tabBarLabel: <Text style={styles.tabBarLabel}>홈</Text>
 ,
                 }}
             />
@@ -62,19 +59,19 @@ export default function TabNavigation() {
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="search" size={20} color={color} />
                     ),
-                    tabBarLabel: <Text style={styles.tabBarLabel}>OrderSearch</Text>
+                    tabBarLabel: <Text style={styles.tabBarLabel}>주문 검색</Text>
 
                 }}
             />
 
             <Tab.Screen
                 name="Profile"
-                component={Profile}
+                component={Setting}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user-cog" size={20} color={color} />
                     ),
-                    tabBarLabel: <Text style={styles.tabBarLabel}>Home</Text>
+                    tabBarLabel: <Text style={styles.tabBarLabel}>설정</Text>
 
                 }}
             />
@@ -83,13 +80,11 @@ export default function TabNavigation() {
     );
 }
 
-
 const styles = StyleSheet.create({
     tabBarLabel: {
         fontSize: 12,
         color: 'black',
         textAlign: 'center',
-        fontFamily: 'Inter-Black',
-        fontWeight: 'bold',
+        fontFamily: 'TheJamsil5Bold',
     },
 });

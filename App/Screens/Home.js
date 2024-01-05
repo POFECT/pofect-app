@@ -1,134 +1,133 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import Animated, { useSharedValue, withSpring, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import {StatusBar} from "expo-status-bar";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Animated, {
+    useSharedValue,
+    withSpring,
+    useAnimatedStyle,
+    withTiming,
+} from 'react-native-reanimated';
+import { useFocusEffect } from '@react-navigation/native';
+import CapacityStandardApi from "../APIs/CapacityApi";
+import HomeVideo from "../Components/Home/HomeVideo";
+import ThreeDChartExample from "../Components/Home/ThreeDChartExample";
+import MainApi from "../APIs/MainApi";
 
-import {LinearGradient} from "expo-linear-gradient";
+const Home = () => {
 
-export default function Home() {
-    const [index, setIndex] = React.useState(0);
-    const [routes] = React.useState([
-        { key: 'first', title: 'Tab 1' },
-        { key: 'second', title: 'Tab 2' },
-        { key: 'third', title: 'Tab 3' },
-    ]);
+    // 능력
+    const [ordList, setOrdList] = useState([]);
 
-    const renderScene = SceneMap({
-        first: ()=>(
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Enter Order Number"
-                    placeholderTextColor="#ecf0f1"
-                />
-                <Animated.View style={[styles.content, animatedStyle]}>
-                    <Text style={styles.title}>Welcome to My Modern App</Text>
-                    <Text style={styles.subtitle}>Explore and Enjoy the Experience!</Text>
-                </Animated.View>
+    // // 출강주
+    // const [weekList, setWeekList] = useState({
+    //     list: [],
+    //     select: "",
+    // });
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => alert('Button Pressed!')}
-                >
-                    <Text style={styles.buttonText}>Click Me</Text>
-                </TouchableOpacity>
-            </View>
-        ),
-        second: ()=>(
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Content for the second tab</Text>
-            </View>
-        ),
-        third: ()=>(
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Content for the third tab</Text>
-            </View>
-        ),
-    });
-
-    const renderTabBar = (props) => (
-
-        <TabBar
-            {...props}
-            indicatorStyle={{ backgroundColor: 'white' }}
-            style={{ backgroundColor: '#2ecc71' }}
-        />
-    );
-
-    const opacity = useSharedValue(0);
-    const translateY = useSharedValue(100);
-    const scale = useSharedValue(0.8);
-
+    // setWeekList("20230721");
     useEffect(() => {
-        opacity.value = withTiming(1, { duration: 1000 });
-        translateY.value = withSpring(0);
-        scale.value = withSpring(1);
+        MainApi.getOrdCnt( (data) => {
+            setOrdList(data.response);
+        });
     }, []);
+
+
+
+
+    // CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
+    //     const list = data.response;
+    //     const select = list[0];
+    //     setWeekList((prev) => {
+    //         return {...prev, list, select};
+    //     });
+    // });
+
+    //Text Animation
+    const opacity = useSharedValue(0);
+    const translateY = useSharedValue(50);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            // 화면 focus -> 애니메이션
+            opacity.value = withTiming(1, { duration: 1000 });
+            translateY.value = withSpring(0);
+            return () => {
+                // 화면 focus out -> 애니메이션
+                opacity.value = withTiming(0);
+                translateY.value = withSpring(50);
+            };
+        }, [])
+    );
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
             opacity: opacity.value,
-            transform: [{ translateY: translateY.value }, { scale: scale.value }],
+            transform: [{ translateY: translateY.value }],
         };
     });
 
     return (
-
         <View style={styles.container}>
-            <StatusBar />
-            <View>
-                <Text>검색창</Text>
+            <HomeVideo />
+            {/*<Animated.View style={[styles.header, animatedStyle]}>*/}
+            {/*    <Text style={styles.headerText}>Welcome to My App</Text>*/}
+            {/*</Animated.View>*/}
+
+            {/*/!* 중앙 버튼 *!/*/}
+            {/*<TouchableOpacity style={styles.button} onPress={() => alert('Button Pressed!')}>*/}
+            {/*    <Text style={styles.buttonText}>Explore Now</Text>*/}
+            {/*</TouchableOpacity>*/}
+            {/* 하단 컨텐츠 */}
+            <View style={styles.contentContainer}>
+                <ThreeDChartExample ordList ={ordList}/>
+
+                {/*<Text style={styles.contentTitle}>Featured Products</Text>*/}
+                {/*{capacity.map((item) => (*/}
+                {/*    <View key={item.id}>*/}
+                {/*        /!*<Text style={styles.contentText}>Capacity: {item.faAdjustmentWgt}</Text>*!/*/}
+                {/*        /!* 다른 정보들도 필요에 따라 추가 *!/*/}
+                {/*    </View>*/}
+                {/*))}*/}
             </View>
-            <TabView
-                navigationState={{ index, routes }}
-                renderScene={renderScene}
-                onIndexChange={setIndex}
-                initialLayout={{ width: 300 }}
-                renderTabBar={renderTabBar}
-            />
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F8FA',
-
-    },
-    content: {
+        justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#F8F8FA',
+    },
+    header: {
         marginBottom: 20,
     },
-    title: {
-        fontSize: 24,
+    headerText: {
+        fontSize: 28,
         fontWeight: 'bold',
-        color: '#fff',
-    },
-    subtitle: {
-        fontSize: 18,
-        color: '#ecf0f1',
-        marginTop: 10,
+        color: 'blue',
     },
     button: {
-        backgroundColor: '#2ecc71',
+        backgroundColor: 'blue',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
-        marginTop: 20,
+        marginBottom: 20,
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
+
+        fontSize: 18,
     },
-    searchInput: {
-        height: 40,
-        borderColor: 'white',
-        borderWidth: 1,
-        color: 'white',
-        marginBottom: 20,
-        paddingHorizontal: 10,
+    contentContainer: {
+        paddingBottom: 20,
+        marginTop: -40,
+
+    },
+    contentTitle: {
+        fontSize: 24,
+        marginBottom: 10,
     },
 });
+
+export default Home;

@@ -1,4 +1,4 @@
-import { axiosApi } from "../../../../Factory-Decision-System/frontend/src/api/api";
+import {axiosApi} from './api';
 
 const CacpacityApi = {
 
@@ -44,7 +44,7 @@ updateSave: async (capacityUpdateList, callback) => {
       })
       .finally(() => {});
   },
-  
+
 createCapacity: async (week, callback) => {
     await axiosApi()
       .post(`/capacity/${week}`)

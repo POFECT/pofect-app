@@ -1,7 +1,37 @@
-import { axiosApi } from "../../../../Factory-Decision-System/frontend/src/api/api";
+import {axiosApi} from './api';
 
 const MainApi = {
-  getOrderList: async (kind, week, osMainStatusCd, faConfirmFlag, callback) => {
+
+  getOrderListByOrdNo: async (ordNo, callback) => {
+    await axiosApi()
+        .get(`/main/app/${ordNo}`)
+        .then((response) => {
+          console.log("API ordNo", ordNo);
+          console.log("API response.data", response.data);
+
+          callback && callback(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {});
+  },
+
+
+    getOrdCnt: async (callback) => {
+        await axiosApi()
+            .get("/main/app/orderCntByMM")
+            .then((response) => {
+
+                callback && callback(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    },
+
+    getOrderList: async (kind, week, osMainStatusCd, faConfirmFlag, callback) => {
     await axiosApi()
       .get(
         `/main?faConfirmFlag=${faConfirmFlag}&osMainStatusCd=${osMainStatusCd}`,

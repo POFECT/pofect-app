@@ -1,11 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { SafeAreaView,View, Text, StyleSheet, TextInput, TouchableOpacity, Platform  } from 'react-native';
-import { Video } from 'expo-av';
 import { Feather } from '@expo/vector-icons';
-
-import { Shadow } from 'react-native-shadow-2';
-
-import appVideo from '../../assets/videos/device-video.mp4';
 import Colors from '../Utils/Colors';
 import Size from '../Utils/Size';
 
@@ -14,22 +9,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 import MaskedView from "@react-native-masked-view/masked-view";
+import LoginVideo from "../Components/Login/LoginVideo";
 
 export default function Login({navigation}) {
 
-    const videoRef = useRef(null);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleVideoReady = async () => {
-        try {
-            if (videoRef.current) {
-                await videoRef.current.playAsync();
-            }
-        } catch (error) {
-            console.error('비디오 재생 중 오류:', error);
-        }
-    };
 
     const handleLogin = () => {
         // 로그인 처리
@@ -52,22 +38,7 @@ export default function Login({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.videoContainer}>
-                <Video
-                    ref={videoRef}
-                    source={appVideo}
-                    style={styles.video}
-                    shouldPlay
-                    isLooping
-                    resizeMode="contain"
-                    onReadyForDisplay={handleVideoReady}
-                    isMuted={true}
-                    rate={0.6}
-                />
-                <Text style={styles.text}>POFECT</Text>
-                <Text style={styles.secondText}>Factory Decision System</Text>
-
-            </View>
+          <LoginVideo />
             <View style={styles.shadow}>
                 {/*<View style={styles.contentBox}>*/}
                     <GradientText text="Experience the Factory Decision System on your mobile device for an efficient workflow" style={styles.semiText} />
@@ -126,22 +97,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
     },
-    videoContainer: {
-        objectFit:'contain',
-        overflow: 'hidden',
-        // borderRadius: Size.width *1,
-        width: '160%',
-        // height: Size.height * 0.7,
-        position: 'relative',
-    },
-    video: {
-        objectFit:'contain',
-        overflow: 'hidden',
-        width: '160%',
-        // marginTop:-Size.height * 0.05,
-        height: Size.height * 0.7,
-        // borderRadius: Size.width,
-    },
+
     shadow: {
         backgroundColor: Colors.WHITE,
         width: Size.width * 0.85,
@@ -182,24 +138,7 @@ const styles = StyleSheet.create({
     //     alignItems: 'center',
     // },
 
-    text: {
-        textAlign: 'center',
-        fontSize: Size.width * 0.17,
-        color: Colors.WHITE,
-        fontFamily: 'TheJamsil6ExtraBold',
-        // marginTop: 10,
-        position: 'absolute',
-        transform: [{ translateX: Size.width*0.35 }, { translateY: Size.height*0.4 }],
-    },
-    secondText: {
-        textAlign: 'center',
-        fontSize: Size.width * 0.065,
-        color: Colors.WHITE,
-        fontFamily: 'TheJamsil5Bold',
-        marginTop: 10,
-        position: 'absolute',
-        transform: [{ translateX: Size.width*0.36 }, { translateY: Size.height*0.47 }],
-    },
+
     semiText: {
         textAlign: 'center',
         fontSize: Size.width * 0.035,

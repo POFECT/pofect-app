@@ -1,12 +1,29 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    TextInput,
+    Image,
+    Platform,
+    FlatList,
+} from 'react-native';
 import Animated, { useSharedValue, withSpring, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { StatusBar } from 'expo-status-bar';
-import { LinearGradient } from 'expo-linear-gradient';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../Utils/Colors';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import RecentSearch from "../Components/OrderSearch/RecentSearch";
+import Size from "../Utils/Size";
+import BasicInfoComponent from "../Components/OrderSearch/BasicInfoComponent";
+import OrderInfoComponent from "../Components/OrderSearch/OrderInfoComponent";
+import ProgressChart from "../Components/OrderSearch/ProgressChartExample";
+import VerticalStepIndicator from "../Components/OrderSearch/ProgressStepComponent";
+import MainApi from "../APIs/MainApi";
 
 const Stack = createStackNavigator();
 
@@ -22,10 +39,20 @@ const AppStack = () => (
                 ),                headerTitleAlign: 'center',
                 headerBackground: () => (
                     <View style={styles.headerBackground}>
-                        {/*<Image*/}
-                        {/*    style={styles.headerImage}*/}
-                        {/*    source={require('./path-to-your-image.jpg')}*/}
-                        {/*/>*/}
+                    </View>
+                ),
+                headerTintColor: 'black',
+            }}
+        />
+        <Stack.Screen
+            name="RecentSearch"
+            component={RecentSearch}
+            options={{
+                headerTitle: () => (
+                    <Text style={styles.headerTitle}>주문 번호 검색</Text>
+                ),                headerTitleAlign: 'center',
+                headerBackground: () => (
+                    <View style={styles.headerBackground}>
                     </View>
                 ),
                 headerTintColor: 'black',
@@ -34,7 +61,12 @@ const AppStack = () => (
     </Stack.Navigator>
 );
 
-const OrderSearch = () => {
+const OrderSearch = ({ route }) => {
+    const { searchTerm } = route.params || {};
+    const [orderData, setOrderData] = useState(null);
+
+    console.log("주문번호 입력한거", searchTerm);
+
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -43,31 +75,57 @@ const OrderSearch = () => {
         { key: 'third', title: '재료 정보' },
     ]);
 
+
     const renderScene = SceneMap({
         first: () => (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
+                            backgroundColor:'#fff'}}>
 
-                <Animated.View style={[styles.content, animatedStyle]}>
-                    <Text style={styles.title}>Welcome to My Modern App</Text>
-                    <Text style={styles.subtitle}>Explore and Enjoy the Experience!</Text>
-                </Animated.View>
+                {/*<Animated.View style={[styles.content, animatedStyle]}>*/}
+                {/*    <Text style={styles.title}>Welcome to My Modern App</Text>*/}
+                {/*    <Text style={styles.subtitle}>Explore and Enjoy the Experience!</Text>*/}
+                {/*</Animated.View>*/}
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => alert('Button Pressed!')}
-                >
-                    <Text style={styles.buttonText}>Click Me</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity*/}
+                {/*    style={styles.button}*/}
+                {/*    onPress={() => alert('Button Pressed!')}*/}
+                {/*>*/}
+                {/*    <Text style={styles.buttonText}>Click Me</Text>*/}
+                {/*</TouchableOpacity>*/}
+                {searchTerm ? (
+                        <OrderInfoComponent searchTerm={searchTerm} />
+                ) : (
+                    <>
+                        <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
+                    </>
+                )}
             </View>
         ),
         second: () => (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Content for the second tab</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
+                            backgroundColor:'#fff'}}>
+                {searchTerm ? (
+                        <VerticalStepIndicator searchTerm={searchTerm}/>
+                ) : (
+                    <>
+                        <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
+                    </>
+                )}
+
             </View>
+
         ),
         third: () => (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Content for the third tab</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
+                backgroundColor:'#fff'}}>
+                {searchTerm ? (
+                    < ProgressChart />
+                ) : (
+                    <>
+                        <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
+                    </>
+                )}
+
             </View>
         ),
     });
@@ -75,8 +133,12 @@ const OrderSearch = () => {
     const renderTabBar = (props) => (
         <TabBar
             {...props}
-            indicatorStyle={{ backgroundColor: 'white' }}
-            style={{ backgroundColor: '#0A5380' }}
+            indicatorStyle={{ backgroundColor: '#0A5380' }}
+            style={{ backgroundColor: '#fff'}}
+            labelStyle={{ color: '#0A5380' ,
+                            fontFamily: "LINESeedKR-Bd",
+                            fontSize: 15,}}
+
         />
     );
 
@@ -88,7 +150,19 @@ const OrderSearch = () => {
         opacity.value = withTiming(1, { duration: 1000 });
         translateY.value = withSpring(0);
         scale.value = withSpring(1);
+
     }, []);
+
+    useEffect(() => {
+        setIndex(0);
+        MainApi.getOrderListByOrdNo(searchTerm, (data) => {
+            setOrderData(data.response);
+        })
+
+    }, [searchTerm]);
+
+
+
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -97,28 +171,73 @@ const OrderSearch = () => {
         };
     });
 
+    //검색창 이동
+    const navigation = useNavigation();
+
+    const navigateToRecentSearch = () => {
+        navigation.navigate('RecentSearch');
+    };
+
+    // 기본 정보
+    const data = orderData ? [
+        { iconName: 'ios-business', title: '포항', description: '구분' },
+        { iconName: 'analytics', title: orderData.osMainStatusCd, description: '진도' },
+        { iconName: 'pricetags', title: orderData.ordPdtItdsCdN, description: '품명' },
+    ] : [];
+
+
     return (
         <View style={styles.container}>
-            <StatusBar />
-            <View style={{backgroundColor:'white',paddingLeft:20,
-                paddingRight:5,
-                borderRadius:99,
-                marginTop:25,
-                display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Enter Order Number"
-                    placeholderTextColor="#ecf0f1"
-                />
-                <Ionicons name="search-circle" size={50} color={Colors.PRIMARY} />
-
-                <Text >검색창</Text>
+            <StatusBar/>
+            {/*Search*/}
+            <View style={styles.searchContainer}>
+                <TouchableWithoutFeedback onPress={navigateToRecentSearch}>
+                    <View style={styles.searchInput}>
+                        {searchTerm ? (
+                            <Text style={styles.placeholderText}>{searchTerm}</Text>
+                        ) : (
+                            <>
+                                <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
+                            </>
+                        )}
+                    </View>
+                </TouchableWithoutFeedback>
+                <Ionicons name="search-circle" size={40} color={Colors.PRIMARY}
+                          style={{marginTop: -2.5, marginRight: 2}}/>
             </View>
+
+            {/* BasicInfo */}
+            <Text style={styles.BasicInfoTitle}>기본 정보</Text>
+            <View style={styles.BasicInfoContainer}>
+
+                {searchTerm ? (
+                <FlatList
+                    data={data}
+                    renderItem={({ item }) => (
+                        <BasicInfoComponent
+                            iconName={item.iconName}
+                            title={item.title}
+                            description={item.description}
+                        />
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                    numColumns={3}
+                    contentContainerStyle={{
+                       }}
+                />
+                    ): (
+                        <>
+                            <Text style={styles.placeholderText2}>주문번호를 입력해주세요.</Text>
+                        </>
+                    )}
+            </View>
+
+
             <TabView
-                navigationState={{ index, routes }}
+                navigationState={{index, routes}}
                 renderScene={renderScene}
                 onIndexChange={setIndex}
-                initialLayout={{ width: 300 }}
+                initialLayout={{width: 300}}
                 renderTabBar={renderTabBar}
             />
         </View>
@@ -126,64 +245,88 @@ const OrderSearch = () => {
 };
 
 
-
 export default AppStack;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F8FA',
+        backgroundColor: 'white',
+
     },
-    content: {
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#fff',
-    },
-    subtitle: {
-        fontSize: 18,
-        color: '#ecf0f1',
-        marginTop: 10,
-    },
-    button: {
-        backgroundColor: '#D3E2FD',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        marginTop: 20,
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
+
+    searchContainer: {
+        backgroundColor:'white',
+        paddingLeft:15,
+        paddingRight:5,
+        borderRadius:99,
+        marginTop:10,
+        display:'flex',flexDirection:'row',justifyContent:'space-between'
     },
     searchInput: {
-        height: 40,
+        height: 38,
+        width: "84%",
         backgroundColor:'#EBECEC',
         // borderColor: 'white',
         // borderWidth: 1,
-        color: 'black',
+        borderRadius: 10,
         marginBottom: 20,
         paddingHorizontal: 10,
     },
-
+    placeholderText: {
+        color: '#444444',
+        fontFamily:'LINESeedKR-Rg',
+        transform:[{ translateX: Size.width * 0.02},
+            {translateY: Size.height * 0.016 }],
+    },
+    placeholderText2: {
+        color: '#444444',
+        textAlign:"center",
+        fontFamily:'LINESeedKR-Rg',
+    },
     headerBackground: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
         borderColor: 'white',
-    },
-    headerImage: {
-        width: 100,
-        height: 100,
-        resizeMode: 'contain',
     },
     headerTitle: {
         fontFamily: 'TheJamsil4Medium',
         color: 'black',
-        fontSize: 17,
+        fontSize: 18,
     },
+
+    BasicInfoTitle: {
+        color: '#0A5380' ,
+        fontFamily: "LINESeedKR-Bd",
+        fontSize: 15,
+        marginTop: 10,
+        marginLeft: 20
+
+},
+    BasicInfoContainer: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        marginTop: 20,
+        marginBottom: 25,
+        marginHorizontal:12,
+
+        ...Platform.select({
+            ios: {
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 2,
+                },
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+
+            },
+            android: {
+                elevation: 4,
+            },
+        })
+    },
+
 });

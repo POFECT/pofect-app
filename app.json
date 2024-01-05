@@ -20,11 +20,18 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#ffffff",
+        "package": "com.poscodx.pofectApp"
+      },
+      "package": "com.poscodx.pofectApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a57745ca-b067-4b11-9fdb-4f040bc8997e"
+      }
     }
   }
 }
