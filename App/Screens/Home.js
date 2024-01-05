@@ -7,14 +7,14 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import { useFocusEffect } from '@react-navigation/native';
-import CapacityStandardApi from "../APIs/CapacityApi";
 import HomeVideo from "../Components/Home/HomeVideo";
 import ThreeDChartExample from "../Components/Home/ThreeDChartExample";
 import MainApi from "../APIs/MainApi";
+import LineChartExample from "../Components/Home/ThreeDChartExample";
 
 const Home = () => {
 
-    // 능력
+    // ordList
     const [ordList, setOrdList] = useState([]);
 
     // // 출강주
@@ -31,8 +31,6 @@ const Home = () => {
     }, []);
 
 
-
-
     // CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
     //     const list = data.response;
     //     const select = list[0];
@@ -40,7 +38,6 @@ const Home = () => {
     //         return {...prev, list, select};
     //     });
     // });
-
     //Text Animation
     const opacity = useSharedValue(0);
     const translateY = useSharedValue(50);
@@ -78,7 +75,7 @@ const Home = () => {
             {/*</TouchableOpacity>*/}
             {/* 하단 컨텐츠 */}
             <View style={styles.contentContainer}>
-                <ThreeDChartExample ordList ={ordList}/>
+                {/*<LineChartExample ordList ={ordList}/>*/}
 
                 {/*<Text style={styles.contentTitle}>Featured Products</Text>*/}
                 {/*{capacity.map((item) => (*/}
