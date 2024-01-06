@@ -8,9 +8,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useFocusEffect } from '@react-navigation/native';
 import HomeVideo from "../Components/Home/HomeVideo";
-import ThreeDChartExample from "../Components/Home/ThreeDChartExample";
 import MainApi from "../APIs/MainApi";
-import LineChartExample from "../Components/Home/ThreeDChartExample";
+import ChartComponent from "../Components/Home/BarChart";
 
 const Home = () => {
 
@@ -28,16 +27,10 @@ const Home = () => {
         MainApi.getOrdCnt( (data) => {
             setOrdList(data.response);
         });
+        console.log("ordList", ordList)
     }, []);
 
 
-    // CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
-    //     const list = data.response;
-    //     const select = list[0];
-    //     setWeekList((prev) => {
-    //         return {...prev, list, select};
-    //     });
-    // });
     //Text Animation
     const opacity = useSharedValue(0);
     const translateY = useSharedValue(50);
@@ -75,7 +68,7 @@ const Home = () => {
             {/*</TouchableOpacity>*/}
             {/* 하단 컨텐츠 */}
             <View style={styles.contentContainer}>
-                {/*<LineChartExample ordList ={ordList}/>*/}
+                <ChartComponent ordList={ordList} />
 
                 {/*<Text style={styles.contentTitle}>Featured Products</Text>*/}
                 {/*{capacity.map((item) => (*/}
