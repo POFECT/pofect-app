@@ -21,9 +21,9 @@ import RecentSearch from "../Components/OrderSearch/RecentSearch";
 import Size from "../Utils/Size";
 import BasicInfoComponent from "../Components/OrderSearch/BasicInfoComponent";
 import OrderInfoComponent from "../Components/OrderSearch/OrderInfoComponent";
-import ProgressChart from "../Components/OrderSearch/ProgressChartExample";
 import VerticalStepIndicator from "../Components/OrderSearch/ProgressStepComponent";
 import MainApi from "../APIs/MainApi";
+import ProgressChartExample from "../Components/OrderSearch/ProgressChartExample";
 
 const Stack = createStackNavigator();
 
@@ -67,6 +67,13 @@ const OrderSearch = ({ route }) => {
 
     console.log("주문번호 입력한거", searchTerm);
 
+    useEffect(() => {
+        setIndex(0);
+        MainApi.getOrderListByOrdNo(searchTerm, (data) => {
+            setOrderData(data.response);
+        })
+
+    }, [searchTerm]);
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -93,7 +100,7 @@ const OrderSearch = ({ route }) => {
                 {/*    <Text style={styles.buttonText}>Click Me</Text>*/}
                 {/*</TouchableOpacity>*/}
                 {searchTerm ? (
-                        <OrderInfoComponent searchTerm={searchTerm} />
+                        <OrderInfoComponent searchTerm={searchTerm} orderData={orderData} />
                 ) : (
                     <>
                         <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
@@ -117,15 +124,18 @@ const OrderSearch = ({ route }) => {
         ),
         third: () => (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
-                backgroundColor:'#fff'}}>
+                backgroundColor:'#fff', padding:10,}}>
+
                 {searchTerm ? (
-                    < ProgressChart />
+                    <View style={styles.BasicInfoContainer}>
+
+                    <ProgressChartExample orderData={orderData}/>
+                    </View>
                 ) : (
                     <>
                         <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
                     </>
                 )}
-
             </View>
         ),
     });
@@ -153,13 +163,6 @@ const OrderSearch = ({ route }) => {
 
     }, []);
 
-    useEffect(() => {
-        setIndex(0);
-        MainApi.getOrderListByOrdNo(searchTerm, (data) => {
-            setOrderData(data.response);
-        })
-
-    }, [searchTerm]);
 
 
 
@@ -327,6 +330,16 @@ const styles = StyleSheet.create({
                 elevation: 4,
             },
         })
+    },
+    thirdTap: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        marginTop: 20,
+        marginBottom: 25,
+        marginHorizontal:12,
+
+
     },
 
 });

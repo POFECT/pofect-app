@@ -1,46 +1,55 @@
-// MyLineChart.js
+import { LineChart } from "react-native-gifted-charts"
 
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
 
-const MyLineChart = ({ ordList }) => {
-    const chartData = {
-        labels: ordList.map((item) => item.ordThwTapMDCd),
-        datasets: [
-            {
-                data: ordList.map((item) => item.ordCnt),
-            },
-        ],
+const MyLineChart = ({ordList}) => {
+    const data = ordList.map(({ ordCnt, ordThwTapYMDCd }) => ({
+        value: ordCnt,
+        labelComponent: () => customLabel(ordThwTapYMDCd.substring(2)),
+    }));
+
+    const customLabel = val => {
+        return (
+            <View style={{width: 70, marginLeft: 7}}>
+                <Text style={{
+                    color: 'black',
+                    fontFamily: 'LINESeedKR-Bd',
+                    fontSize: 12,
+                }}>{val}</Text>
+            </View>
+        );
     };
 
     return (
         <>
-            <Text style={styles.header}>최근 출강주의 주문수</Text>
-            <LineChart
-                data={chartData}
-                width={280}
-                height={220}
-                yAxisLabel={''}
-                chartConfig={{
-                    backgroundColor: '#1cc910',
-                    backgroundGradientFrom: '#eff3ff',
-                    backgroundGradientTo: '#efefef',
-                    decimalPlaces: 2,
-                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                        borderRadius: 16,
-                    },
-                }}
-                style={{
-                    borderRadius: 16,
-                }}
-            />
-        </>
-    );
-};
+        <Text style={styles.header}>최근 출강주의 주문수</Text>
 
-export default MyLineChart;
+    <View
+            style={{
+                paddingVertical: 10,
+                paddingLeft: 5,
+                backgroundColor: '#fff',
+            }}>
+
+            <LineChart
+            areaChart
+            curved
+            width={250}
+            height={160}
+            data={data}
+            startFillColor="#0A5380"
+            startOpacity={0.8}
+            endFillColor="rgb(203, 241, 250)"
+            endOpacity={0.3}
+            isAnimated
+            rotateLabel
+        />
+        </View>
+    </>
+    );
+}
+export default  MyLineChart;
 
 const styles = StyleSheet.create({
     header: {

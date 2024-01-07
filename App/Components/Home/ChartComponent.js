@@ -2,17 +2,17 @@
 
 import React, {useEffect, useState} from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
-import MyBarChart from './MyBarChart';
-import MainApi from "../../APIs/MainApi";
+import MyLineChart from "./BarChart";
 
-const ChartComponent = ({  }) => {
+
+const ChartComponent = ({ ordList}) => {
 
 
     return (
         <ScrollView>
             <View style={styles.container}>
                 <View>
-                    <MyBarChart />
+                    <MyLineChart ordYrList={ordYrList} ordMdList={ordMdList} ordCntList={ordCntList } ordList={ordList} />
                 </View>
             </View>
         </ScrollView>

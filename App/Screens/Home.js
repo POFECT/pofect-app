@@ -30,6 +30,17 @@ const Home = () => {
         console.log("ordList", ordList)
     }, []);
 
+    // useEffect(() => {
+    //     const ordYrList = ordList.map((item) => item.ordThwTapYrCd);
+    //     const ordMdList = ordList.map((item) => item.ordThwTapMDCd);
+    //     const ordCntList = ordList.map((item) => item.ordCnt);
+    //
+    //     setOrdYrList(ordYrList);
+    //     setOrdMdList(ordMdList);
+    //     setOrdCntList(ordCntList);
+    //     console.log(ordYrList)
+    // }, [ordList]);
+
 
     //Text Animation
     const opacity = useSharedValue(0);
@@ -68,15 +79,8 @@ const Home = () => {
             {/*</TouchableOpacity>*/}
             {/* 하단 컨텐츠 */}
             <View style={styles.contentContainer}>
-                <ChartComponent ordList={ordList} />
+                <ChartComponent ordList={ordList}/>
 
-                {/*<Text style={styles.contentTitle}>Featured Products</Text>*/}
-                {/*{capacity.map((item) => (*/}
-                {/*    <View key={item.id}>*/}
-                {/*        /!*<Text style={styles.contentText}>Capacity: {item.faAdjustmentWgt}</Text>*!/*/}
-                {/*        /!* 다른 정보들도 필요에 따라 추가 *!/*/}
-                {/*    </View>*/}
-                {/*))}*/}
             </View>
         </View>
     );
