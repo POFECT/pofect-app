@@ -13,7 +13,7 @@ const Tab = createMaterialBottomTabNavigator();
 export default function TabNavigation() {
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="OrderSearchTab"
             shifting={true}
             barStyle={{
                 backgroundColor: 'white',

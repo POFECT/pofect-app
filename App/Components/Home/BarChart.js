@@ -9,6 +9,16 @@ const MyLineChart = ({ordList}) => {
         labelComponent: () => customLabel(ordThwTapYMDCd.substring(2)),
     }));
 
+    // const data = [
+    //     {value: 250, label: 'M'},
+    //     {value: 500, label: 'T', frontColor: '#177AD5'},
+    //     {value: 745, label: 'W', frontColor: '#177AD5'},
+    //     {value: 320, label: 'T'},
+    //     {value: 600, label: 'F', frontColor: '#177AD5'},
+    //     {value: 256, label: 'S'},
+    //     {value: 300, label: 'S'},
+    // ];
+
     const customLabel = val => {
         return (
             <View style={{width: 70, marginLeft: 7}}>
