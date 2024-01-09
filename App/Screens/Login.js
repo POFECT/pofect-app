@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         width: Size.width * 0.85,
         marginTop: -Size. height * 0.05,
         // height: Size.height  * 0.3,
-        transform: [{ translateY: -Size.height*0.1 }],
+        transform: `translateY(${-Size.height * 0.1}px)`, // Your other transformations go here
         padding: 35,
         borderRadius: Size.width * 0.1,
         overflow: 'hidden',

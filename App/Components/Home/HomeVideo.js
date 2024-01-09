@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         borderRadius: Size.width * 0.6,
         width: '160%',
         height: Size.height * 0.55,
-        transform: [{ translateY: -Size.height * 0.13 }],
+        transform: 'translateY(-' + Size.height * 0.13 + 'px)',
 
         ...Platform.select({
             ios: {

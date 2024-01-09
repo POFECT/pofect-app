@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { createStackNavigator } from "@react-navigation/stack";
 import UserSetting from "../Components/Setting/UserSetting";
 import Icon from 'react-native-vector-icons/FontAwesome'
+import CarouselExample from "../Components/DashBoard/SwiperComponent";
 const Stack = createStackNavigator();
 
 // 상단 bar
@@ -30,10 +31,7 @@ const AppStack = () => (
 const Dashboard=() => {
     return (
         <View style={styles.container}>
-            <View style={styles.body}>
-                <Text style={styles.sectionTitle}>내 정보</Text>
-
-            </View>
+                <CarouselExample />
         </View>
     )
 }
