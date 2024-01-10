@@ -6,9 +6,9 @@ import MainApi from "../../APIs/MainApi";
 
 const stepIndicatorStyles = {
     stepIndicatorSize: 30,
-    currentStepIndicatorSize: 40,
-    separatorStrokeWidth: 3,
-    currentStepStrokeWidth: 5,
+    currentStepIndicatorSize: 50,
+    separatorStrokeWidth: 5,
+    currentStepStrokeWidth: 6.5,
     stepStrokeCurrentColor: '#005584',
     separatorFinishedColor: '#005584',
     separatorUnFinishedColor: '#aaaaaa',
@@ -26,37 +26,35 @@ const stepIndicatorStyles = {
     labelFontFamily:"TheJamsil5Bold",
 
 };
-const VerticalStepIndicator = ({ searchTerm }) => {
-    const [orderData, setOrderData] = useState(null);
-    const [currentPage, setCurrentPage] = useState(0);
+const VerticalStepIndicator = ({ searchTerm,orderData}) => {
+
+    // const [orderData, setOrderData] = useState(null);
+    const [currentPage, setCurrentPage] = useState(3);
     const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 40 }).current;
 
+
     useEffect(() => {
-        console.log('searchTerm', searchTerm);
+        console.log('orderData', orderData);
+        if (orderData) {
+            const faConfirmFlag = orderData.faConfirmFlag;
+            console.log(faConfirmFlag);
+            if (faConfirmFlag === 'A') {
+                setCurrentPage(0);
+            } else if (faConfirmFlag === 'B' || faConfirmFlag === 'C') {
+                setCurrentPage(1);
+            } else if (faConfirmFlag === 'D') {
+                setCurrentPage(2);
+            } else if (faConfirmFlag === 'E') {
+                setCurrentPage(3);
+            } else if (faConfirmFlag === 'F')
+            {
+                setCurrentPage(4);
 
-        MainApi.getOrderListByOrdNo(searchTerm, (data) => {
-            setOrderData(data.response);
-            if (data.response) {
-                const faConfirmFlag = data.response.faConfirmFlag;
-                console.log(faConfirmFlag);
-                if (faConfirmFlag === 'A') {
-                    setCurrentPage(0);
-                } else if (faConfirmFlag === 'B' || faConfirmFlag === 'C') {
-                    setCurrentPage(1);
-                } else if (faConfirmFlag === 'D') {
-                    setCurrentPage(2);
-                } else if (faConfirmFlag === 'E') {
-                    setCurrentPage(3);
-                } else if (faConfirmFlag === 'F')
-                {
-                    setCurrentPage(4);
-
-                }
             }
-        });
+        }
         console.log("use",currentPage);
 
-    }, [searchTerm]);
+    }, []);
 
     const dummyData = [
         {
@@ -79,12 +77,6 @@ const VerticalStepIndicator = ({ searchTerm }) => {
         },
     ];
 
-
-    useEffect(() => {
-        console.log('currentPage:', currentPage);
-    }, [currentPage]);
-
-
     const renderPage = ({ item, index }) => {
         const isCurrentPage = index === currentPage;
         const fontSize = isCurrentPage ? 14 : 12;
@@ -92,15 +84,20 @@ const VerticalStepIndicator = ({ searchTerm }) => {
         const bodyText = item.body && orderData && orderData[item.body] !== null ? orderData[item.body] : '';
 
         return (
-            <View style={{ ...styles.rowItem, }}>
-                <Text style={{ ...styles.title, fontSize, color: textColor }}>
-                    {item.title}
-                </Text>
-                {item.body && bodyText !== '' && (
-                    <Text style={{ ...styles.body, fontSize, color: textColor }}>
-                        {bodyText}
-                    </Text>
-                )}
+            <View style={styles.chartContainerOut}>
+                <View style={styles.chartContainer}>
+                    <View style={{...styles.rowItem,}}>
+                        <Text style={{...styles.title, fontSize, color: textColor}}>
+                            {item.title}
+                        </Text>
+                        {item.body && bodyText !== '' && (
+                            <Text style={{...styles.body, fontSize, color: textColor}}>
+                                {bodyText}
+                            </Text>
+                        )}
+                    </View>
+
+                </View>
             </View>
         );
     };
@@ -114,6 +111,7 @@ const VerticalStepIndicator = ({ searchTerm }) => {
                     direction="vertical"
                     currentPosition={currentPage}
                     labels={dummyData.map((item) => item.title)}
+
                 />
             </View>
             <FlatList
@@ -138,13 +136,12 @@ const styles = StyleSheet.create({
     },
     stepIndicator: {
         marginVertical: 20,
-
         paddingHorizontal: 20,
     },
     rowItem: {
         flex: 3,
         marginTop:10,
-        paddingVertical: 5,
+        // paddingVertical: 5,
     },
     title: {
         flex: 1,
@@ -161,5 +158,25 @@ const styles = StyleSheet.create({
         // marginTop: 5,
         marginRight: 8,
         fontFamily:"TheJamsil3Regular" ,
+    },
+    chartContainerOut: {
+        width: 350,
+        // paddingVertical: 20,
+        paddingHorizontal: 16,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        marginTop: 8,
+        // shadowColor: '#000',
+        // shadowOffset: { width: 0, height: 2 },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 5,
+
+
+    },
+    chartContainer:{
+        marginBottom: 15,
+        marginLeft:4,
+
     },
 });

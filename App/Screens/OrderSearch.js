@@ -87,18 +87,6 @@ const OrderSearch = ({ route }) => {
         first: () => (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
                             backgroundColor:'#fff'}}>
-
-                {/*<Animated.View style={[styles.content, animatedStyle]}>*/}
-                {/*    <Text style={styles.title}>Welcome to My Modern App</Text>*/}
-                {/*    <Text style={styles.subtitle}>Explore and Enjoy the Experience!</Text>*/}
-                {/*</Animated.View>*/}
-
-                {/*<TouchableOpacity*/}
-                {/*    style={styles.button}*/}
-                {/*    onPress={() => alert('Button Pressed!')}*/}
-                {/*>*/}
-                {/*    <Text style={styles.buttonText}>Click Me</Text>*/}
-                {/*</TouchableOpacity>*/}
                 {searchTerm ? (
                         <OrderInfoComponent searchTerm={searchTerm} orderData={orderData} />
                 ) : (
@@ -112,7 +100,7 @@ const OrderSearch = ({ route }) => {
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
                             backgroundColor:'#fff'}}>
                 {searchTerm ? (
-                        <VerticalStepIndicator searchTerm={searchTerm}/>
+                        <VerticalStepIndicator searchTerm={searchTerm} orderData={orderData}/>
                 ) : (
                     <>
                         <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
@@ -128,7 +116,6 @@ const OrderSearch = ({ route }) => {
 
                 {searchTerm ? (
                     <View style={styles.BasicInfoContainer}>
-
                     <ProgressChartExample orderData={orderData}/>
                     </View>
                 ) : (
@@ -163,16 +150,6 @@ const OrderSearch = ({ route }) => {
 
     }, []);
 
-
-
-
-
-    const animatedStyle = useAnimatedStyle(() => {
-        return {
-            opacity: opacity.value,
-            transform: [{ translateY: translateY.value }, { scale: scale.value }],
-        };
-    });
 
     //검색창 이동
     const navigation = useNavigation();
@@ -212,27 +189,25 @@ const OrderSearch = ({ route }) => {
             {/* BasicInfo */}
             <Text style={styles.BasicInfoTitle}>기본 정보</Text>
             <View style={styles.BasicInfoContainer}>
-
                 {searchTerm ? (
-                <FlatList
-                    data={data}
-                    renderItem={({ item }) => (
-                        <BasicInfoComponent
-                            iconName={item.iconName}
-                            title={item.title}
-                            description={item.description}
-                        />
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                    numColumns={3}
-                    contentContainerStyle={{
-                       }}
-                />
-                    ): (
-                        <>
-                            <Text style={styles.placeholderText2}>주문번호를 입력해주세요.</Text>
-                        </>
-                    )}
+                    <FlatList
+                        data={data}
+                        renderItem={({item}) => (
+                            <BasicInfoComponent
+                                iconName={item.iconName}
+                                title={item.title}
+                                description={item.description}
+                            />
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                        numColumns={3}
+                        contentContainerStyle={{}}
+                    />
+                ) : (
+                    <>
+                        <Text style={styles.placeholderText2}>주문번호를 입력해주세요.</Text>
+                    </>
+                )}
             </View>
 
 
@@ -254,6 +229,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        paddingTop : 10,
 
     },
 
@@ -262,12 +238,12 @@ const styles = StyleSheet.create({
         paddingLeft:15,
         paddingRight:5,
         borderRadius:99,
-        marginTop:10,
+        marginTop:14,
         display:'flex',flexDirection:'row',justifyContent:'space-between'
     },
     searchInput: {
         height: 38,
-        width: "84%",
+        width: "86%",
         backgroundColor:'#EBECEC',
         // borderColor: 'white',
         // borderWidth: 1,
@@ -279,7 +255,7 @@ const styles = StyleSheet.create({
         color: '#444444',
         fontFamily:'LINESeedKR-Rg',
         transform:[{ translateX: Size.width * 0.02},
-            {translateY: Size.height * 0.016 }],
+            {translateY: Size.height * 0.012 }],
     },
     placeholderText2: {
         color: '#444444',
@@ -313,7 +289,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 20,
         marginBottom: 25,
-        marginHorizontal:12,
+        marginHorizontal:18,
 
         ...Platform.select({
             ios: {

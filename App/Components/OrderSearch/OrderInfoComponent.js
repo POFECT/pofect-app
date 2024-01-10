@@ -7,7 +7,7 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
     // const [orderData, setOrderData] = useState(null);
     const [tableHead, setTableHead] = useState([]);
     const [tableData, setTableData] = useState([]);
-    const [widthArr, setWidthArr] = useState([115, 150]);
+    const [widthArr, setWidthArr] = useState([160, 180]);
 
     useEffect(() => {
         console.log('searchTerm', searchTerm);
@@ -39,13 +39,15 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
                             <Row
                                 data={['설명', '정보']}
                                 widthArr={widthArr}
-                                style={{ ...styles.row, backgroundColor: '#fff' }}
-                                textStyle={{ ...styles.text, color: '#09537F' }}                            />
+                                style={ styles.row }
+                                textStyle={styles.text}
+                            />
                             <Rows
                                 data={tableData}
                                 widthArr={widthArr}
-                                style={{ ...styles.row, backgroundColor: '#fff' }}
-                                textStyle={styles.text}
+                                style={ styles.row }
+                                textStyle={styles.textHeader}
+
                             />
                         </Table>
                     </View>
@@ -58,7 +60,7 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 16, paddingTop: 20, backgroundColor: '#fff',  },
+    container: { flex: 1, padding: 2, paddingTop: 20, backgroundColor: '#fff',  },
     shadowContainer: {
         borderRadius: 16,
         ...Platform.select({
@@ -80,14 +82,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'TheJamsil3Regular',
         fontSize: 12,
-        margin:3
+        margin:3,
+        color:'#09537F'
     },
     row: {
         height: 40,
-        backgroundColor: '#E7E6E1',
+
+        backgroundColor: '#fff',
         fontFamily: 'TheJamsil3Regular',
         fontSize: 12,
 
 
+    },
+    textHeader: {
+        textAlign: 'center',
+        fontFamily: 'TheJamsil3Regular',
+        fontSize: 12,
+        margin: 3,
+        fontWeight: 'bold', // You may adjust this based on your design
     },
 });

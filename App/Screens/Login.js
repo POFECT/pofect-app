@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { SafeAreaView,View, Text, StyleSheet, TextInput, TouchableOpacity, Platform  } from 'react-native';
+import { SafeAreaView,KeyboardAvoidingView,View, Text, StyleSheet, TextInput, TouchableOpacity, Platform  } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Colors from '../Utils/Colors';
 import Size from '../Utils/Size';
@@ -37,7 +37,7 @@ export default function Login({navigation}) {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.container}>
           <LoginVideo />
             <View style={styles.shadow}>
                 {/*<View style={styles.contentBox}>*/}
@@ -74,20 +74,22 @@ export default function Login({navigation}) {
                                 onChangeText={setPassword}
                             />
                         </View>
+                        <TouchableOpacity  onPress={handleLogin}>
                         <LinearGradient
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 1 }}
                             colors={['#a04b95','#7442B9', '#3F5486']}
                             style={styles.loginButton}
                         >
-                        <TouchableOpacity  onPress={handleLogin}>
+
                             <Text style={styles.loginButtonText}>Login</Text>
-                        </TouchableOpacity>
                         </LinearGradient>
+                        </TouchableOpacity>
+
                     </View>
                 {/*</View>*/}
             </View>
-        </SafeAreaView>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
+        marginBottom:10
     },
 
     shadow: {
@@ -125,19 +128,6 @@ const styles = StyleSheet.create({
             },
         })
     },
-    // contentBox: {
-    //     backgroundColor: Colors.WHITE,
-    //     width: Size.width * 0.85,
-    //     marginTop: -Size. height * 0.1,
-    //     // height: Size.height  * 0.3,
-    //     transform: [{ translateY: -Size.height*0.06 }],
-    //
-    //     padding: 35,
-    //     borderRadius: Size.width * 0.1,
-    //     overflow: 'hidden',
-    //     alignItems: 'center',
-    // },
-
 
     semiText: {
         textAlign: 'center',

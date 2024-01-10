@@ -1,10 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
-import UserSetting from "../Components/Setting/UserSetting";
-import Icon from 'react-native-vector-icons/FontAwesome'
-import CarouselExample from "../Components/DashBoard/SwiperComponent";
+import DonutChart from "../Components/DashBoard/DonutChart";
+import GroupedBars from "../Components/DashBoard/GroupedBars";
 const Stack = createStackNavigator();
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Size from "../Utils/Size";
+
 
 // 상단 bar
 const AppStack = () => (
@@ -28,82 +30,62 @@ const AppStack = () => (
     </Stack.Navigator>
 );
 
-const Dashboard=() => {
+const Dashboard = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const carouselItems = [
+        { title: 'Donut Chart', component: <DonutChart /> },
+        { title: 'Grouped Bars', component: <GroupedBars /> },
+        // Add more components as needed
+    ];
+
+    const renderItem = ({ item, index }) => (
+        <View>
+            {item.component}
+        </View>
+    );
+
     return (
         <View style={styles.container}>
-                <CarouselExample />
+            <Carousel
+                data={carouselItems}
+                renderItem={renderItem}
+                sliderWidth={Size.width}
+                itemWidth={360}
+                onSnapToItem={(index) => setActiveIndex(index)}
+            />
+            <Pagination
+                dotsLength={carouselItems.length}
+                activeDotIndex={activeIndex}
+                containerStyle={styles.paginationContainer}
+                dotStyle={styles.dotStyle}
+                inactiveDotStyle={styles.inactiveDotStyle}
+                inactiveDotOpacity={0.6}
+                inactiveDotScale={0.8}
+            />
         </View>
-    )
-}
-
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        paddingTop: 20,
     },
-    headerBackground: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderColor: 'white',
+    paginationContainer: {
+        marginTop: 20,
     },
-    headerTitle: {
-        fontFamily: 'TheJamsil4Medium',
-        color: 'black',
-        fontSize: 18,
+    dotStyle: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        marginHorizontal: 8,
+        backgroundColor: '#3498db',
     },
-    body: {
-        backgroundColor:"#fff",
-        flex: 1,
-        marginBottom: 1,
+    inactiveDotStyle: {
+        backgroundColor: '#bdc3c7',
     },
-    sectionTitle: {
-        padding: 20,
-        fontSize: 13,
-        fontFamily: 'TheJamsil5Bold',
-        marginBottom: 2,
-        backgroundColor:"#fff",
-        color: '#7D7D7D',
-    },
-    infoItem: {
-        padding: 20,
-        backgroundColor: "#fff",
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 5,
-        paddingVertical: 10,
-    },
-    rightArrowContainer: {
-        justifyContent: 'center',
-    },
-    rightArrow: {
-        alignItems: 'center',
-        fontSize: 20,
-        color: '#7D7D7D',
-    },
-    infoLabel: {
-        backgroundColor:"#fff",
-        fontSize: 14,
-        width: 100,
-        fontFamily: 'TheJamsil3Regular',
-        color: '#2c3e50',
-    },
-
-    logout: {
-        backgroundColor:"#fff",
-        fontSize: 14,
-        width: 100,
-        fontFamily: 'TheJamsil3Regular',
-        color: 'red',
-        alignSelf: 'flex-end',
-    },
-    line: {
-        borderBottomWidth: 7,
-        borderColor: '#F0F0F0',
-        marginVertical: 3,
-    },
-
 });
+
 export default AppStack;

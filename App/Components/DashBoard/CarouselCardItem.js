@@ -21,7 +21,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 8,
         width: ITEM_WIDTH,
-        marginBottom: 120,
+        // marginBottom: 120,
+        transform: [
+            { translateX: Size.width * 0.6},
+            { translateY: -Size.height * 0.4 },
+        ],
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

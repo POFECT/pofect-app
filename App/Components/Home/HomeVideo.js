@@ -15,6 +15,7 @@ export default function HomeVideo() {
 
     const videoRef = useRef(null);
 
+
     const handleVideoReady = async () => {
         try {
             if (videoRef.current) {
@@ -24,7 +25,6 @@ export default function HomeVideo() {
             console.error('비디오 재생 중 오류:', error);
         }
     };
-
 
     //Text Animation
     const opacity = useSharedValue(0);
@@ -136,8 +136,8 @@ const styles = StyleSheet.create({
         fontFamily: 'LINESeedKR-Bd',
         // marginTop: Size.height * 0.31,  // 수정된 부분
         position: 'absolute',
-        transform:[{ translateX: -Size.width * 0.38},
-                     {translateY: Size.height * 0.01 }],
+        transform:[{ translateX: -Size.width * 0.36},
+                     {translateY: Size.height * 0.0055 }],
     },
     secondText: {
         textAlign: 'right',
