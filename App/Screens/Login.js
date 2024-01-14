@@ -3,7 +3,7 @@ import { SafeAreaView,KeyboardAvoidingView,View, Text, StyleSheet, TextInput, To
 import { Feather } from '@expo/vector-icons';
 import Colors from '../Utils/Colors';
 import Size from '../Utils/Size';
-
+import { LogBox } from 'react-native';
 import GradientText from './GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,8 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import LoginVideo from "../Components/Login/LoginVideo";
 
 export default function Login({navigation}) {
+    LogBox.ignoreAllLogs();//Ignore all log notifications
+
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

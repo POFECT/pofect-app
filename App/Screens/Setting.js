@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import UserSetting from "../Components/Setting/UserSetting";
+
 import Icon from 'react-native-vector-icons/FontAwesome'
+import AppVersion from "../Components/Setting/AppVersion";
 const Stack = createStackNavigator();
 
 // 상단 bar
@@ -38,6 +40,22 @@ const AppStack = () => (
                 headerTintColor: 'black',
             }}
         />
+
+        <Stack.Screen
+            name="AppVersion"
+            component={AppVersion}
+            options={{
+                headerTitle: () => (
+                    <Text style={styles.headerTitle}>앱 버전</Text>
+                ),
+                headerTitleAlign: 'center',
+                headerBackground: () => (
+                    <View style={styles.headerBackground}>
+                    </View>
+                ),
+                headerTintColor: 'black',
+            }}
+        />
     </Stack.Navigator>
 );
 
@@ -53,6 +71,10 @@ const Setting = ({ navigation }) => {
         navigation.navigate('UserSetting');
     };
 
+    const goToAppVersion = () => {
+        navigation.navigate('AppVersion');
+    };
+
     const generalSettings = [
         { label: '앱 알림 설정', onPress: goToSettings },
         { label: '계정 정보 설정', onPress: goToUserSetting },
@@ -60,7 +82,7 @@ const Setting = ({ navigation }) => {
 
     const infoSettings = [
         { label: '공지사항', /* onPress: Add your navigation logic here */ },
-        { label: '앱 버전', /* onPress: Add your navigation logic here */ },
+        { label: '앱 버전', onPress: goToAppVersion  },
     ];
     const userInformation = [
         { label: '계정명', value: '세균맨' },

@@ -3,6 +3,16 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
+    <file type="web" url="file://$PROJECT_DIR$/../../../pofect/Factory-Decision-System/backend" />
+    <file type="web" url="file://$PROJECT_DIR$/../../../pofect/pofect-config-server" />
+    <file type="web" url="file://$PROJECT_DIR$/../../../pofect/pofect-gateway" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/../../../pofect/embedded-springboot-keycloak-server/pom.xml" />
+      </list>
+    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="zulu-17" project-jdk-type="JavaSDK" />
 </project>

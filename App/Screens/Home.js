@@ -4,8 +4,11 @@ import HomeVideo from "../Components/Home/HomeVideo";
 import MainApi from "../APIs/MainApi";
 import ChartComponent from "../Components/Home/BarChart";
 import { useFocusEffect } from '@react-navigation/native';
+import { LogBox } from 'react-native';
 
 const Home = () => {
+    LogBox.ignoreAllLogs();//Ignore all log notifications
+
     const MemoizedChartComponent = React.memo(ChartComponent);
 
     // ordList

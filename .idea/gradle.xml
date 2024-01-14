@@ -12,6 +12,51 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../../../pofect/Factory-Decision-System" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../../../pofect/Factory-Decision-System" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../../../pofect/Factory-Decision-System/backend" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../../../pofect/Factory-Decision-System/backend" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../../../pofect/pofect-config-server" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../../../pofect/pofect-config-server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../../../pofect/pofect-eureka" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../../../pofect/pofect-eureka" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../../../pofect/pofect-gateway" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../../../pofect/pofect-gateway" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>

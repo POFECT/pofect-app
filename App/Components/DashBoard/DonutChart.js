@@ -2,17 +2,14 @@ import { PieChart } from "react-native-gifted-charts";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
 
-const DonutChart = () => {
+const DonutChart = ({ cntList }) => {
+    // Sample data to be replaced with cntList
     const pieData = [
-        {
-            value: 47,
-            color: '#009FFF',
-            gradientCenterColor: '#006DFF',
-            focused: true,
-        },
-        {value: 40, color: '#93FCF8', gradientCenterColor: '#3BE9DE'},
-        {value: 16, color: '#BDB2FA', gradientCenterColor: '#8F80F3'},
-        {value: 3, color: '#FFA5BA', gradientCenterColor: '#FF7F97'},
+        { value: cntList[0], color: '#009FFF', gradientCenterColor: '#006DFF', focused: true },
+        { value: cntList[1], color: '#93FCF8', gradientCenterColor: '#3BE9DE' },
+        { value: cntList[2], color: '#BDB2FA', gradientCenterColor: '#8F80F3' },
+        { value: cntList[3], color: '#FFA5BA', gradientCenterColor: '#FF7F97' },
+        { value: cntList[4], color: '#FFD700', gradientCenterColor: '#FFB400' },
     ];
 
     const renderDot = color => {
@@ -30,6 +27,8 @@ const DonutChart = () => {
     };
 
     const renderLegendComponent = () => {
+        // Render legend based on cntList
+        const legendLabels = ['주문 완료', 'Good', 'Okay', 'Poor'];
         return (
             <>
                 <View
@@ -38,38 +37,29 @@ const DonutChart = () => {
                         justifyContent: 'center',
                         marginBottom: 10,
                     }}>
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            width: 120,
-                            marginRight: 20,
-                        }}>
-                        {renderDot('#006DFF')}
-                        <Text style={{color: 'white', fontFamily: 'LINESeedKR-Rg',}}>Excellent: 47%</Text>
-                    </View>
-                    <View
-                        style={{flexDirection: 'row', alignItems: 'center', width: 120}}>
-                        {renderDot('#8F80F3')}
-                        <Text style={{color: 'white', fontFamily: 'LINESeedKR-Rg',}}>Okay: 16%</Text>
-                    </View>
-                </View>
-                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            width: 120,
-                            marginRight: 20,
-                        }}>
-                        {renderDot('#3BE9DE')}
-                        <Text style={{color: 'white', fontFamily: 'LINESeedKR-Rg',}}>Good: 40%</Text>
-                    </View>
-                    <View
-                        style={{flexDirection: 'row', alignItems: 'center', width: 120}}>
-                        {renderDot('#FF7F97')}
-                        <Text style={{color: 'white', fontFamily: 'LINESeedKR-Rg',}}>Poor: 3%</Text>
-                    </View>
+                    {legendLabels.map((label, index) => (
+                        <View
+                            key={index}
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                width: 120,
+                                marginRight: (index % 2 === 1) ? 20 : (index < legendLabels.length - 1 ? 20 : 0),
+                            }}>
+                            {renderDot(pieData[index].color)}
+
+                            {(index % 2 === 1) && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', width: 120 }}>
+                                    <Text style={{ color: 'white', fontFamily: 'LINESeedKR-Rg' }}>{label}: {cntList[index]}%</Text>
+                                </View>
+                            )}
+                            {(index % 2 === 0) && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', width: 120 }}>
+                                    <Text style={{ color: 'white', fontFamily: 'LINESeedKR-Rg' }}>{label}: {cntList[index]}%</Text>
+                                </View>
+                            )}
+                        </View>
+                    ))}
                 </View>
             </>
         );
@@ -80,9 +70,7 @@ const DonutChart = () => {
             style={{
                 paddingVertical: 70,
                 borderRadius: 10,
-
                 backgroundColor: '#E7F3F8',
-                // flex: 1,
             }}>
             <View
                 style={{
@@ -91,10 +79,10 @@ const DonutChart = () => {
                     borderRadius: 20,
                     backgroundColor: '#232B5D',
                 }}>
-                <Text style={{color: 'white', fontSize: 16, fontFamily: 'LINESeedKR-Bd',}}>
-                    Performance
+                <Text style={{ color: 'white', fontSize: 16, fontFamily: 'LINESeedKR-Bd', }}>
+                    진행 상태 별 주문 수
                 </Text>
-                <View style={{padding: 20, alignItems: 'center'}}>
+                <View style={{ padding: 20, alignItems: 'center' }}>
                     <PieChart
                         data={pieData}
                         donut
@@ -103,14 +91,15 @@ const DonutChart = () => {
                         radius={90}
                         innerRadius={60}
                         innerCircleColor={'#232B5D'}
+                        isAnimated
                         centerLabelComponent={() => {
                             return (
-                                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Text
-                                        style={{fontSize: 22, color: 'white',fontFamily: 'LINESeedKR-Bd',}}>
-                                        47%
+                                        style={{ fontSize: 22, color: 'white', fontFamily: 'LINESeedKR-Bd', }}>
+                                        {cntList[0]}%
                                     </Text>
-                                    <Text style={{fontSize: 14, color: 'white',fontFamily: 'LINESeedKR-Rg',}}>Excellent</Text>
+                                    <Text style={{ fontSize: 14, color: 'white', fontFamily: 'LINESeedKR-Rg', }}>Excellent</Text>
                                 </View>
                             );
                         }}
@@ -118,7 +107,8 @@ const DonutChart = () => {
                 </View>
                 {renderLegendComponent()}
             </View>
-        </View>);
+        </View>
+    );
 }
 
 export default DonutChart;

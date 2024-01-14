@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Platform} from 'react-native'
-import React, { useRef, } from 'react';
+import React, { useRef,useEffect,useState } from 'react';
 import { Video } from 'expo-av';
 import appVideo from '../../../assets/videos/video.mp4';
 import Size from "../../Utils/Size";
@@ -10,11 +10,13 @@ import Animated, {
     useAnimatedStyle,
     withTiming,
 } from 'react-native-reanimated';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
+import MainApi from '../../APIs/MainApi';
+
 export default function HomeVideo() {
 
     const videoRef = useRef(null);
-
+    const [cntList, setCntList] = useState([0, 0, 0, 0, 0,0]);
 
     const handleVideoReady = async () => {
         try {
@@ -24,6 +26,26 @@ export default function HomeVideo() {
         } catch (error) {
             console.error('비디오 재생 중 오류:', error);
         }
+    };
+    useEffect(() => {
+        getOrders();
+    }, []);
+
+    const getOrders = () => {
+        MainApi.getOrderList(null, "20240130", "H", null, (data) => {
+            const list = data.response;
+            const countByFlag = {};
+            const possibleFlags = ['A', 'B', 'C', 'D', 'E', 'F'];
+            possibleFlags.forEach(flag => {
+                countByFlag[flag] = 0;
+            });
+
+            list.forEach(item => {
+                const flag = item.faConfirmFlag;
+                countByFlag[flag]++;
+            });
+            setCntList(['A', 'B','C', 'D', 'E', 'F'].map(flag => countByFlag[flag]));
+        });
     };
 
     //Text Animation
@@ -74,11 +96,11 @@ export default function HomeVideo() {
                 isMuted={true}
                 rate={0.7}
             />
-            <Animated.Text style={[styles.text, animatedStyle]}>20230721 </Animated.Text>
+            <Animated.Text style={[styles.text, animatedStyle]}>20240130 </Animated.Text>
             <Text style={styles.semiText}>출강주</Text>
             <Animated.Text style={[styles.secondText, animatedStyle2]}>
-                {`가통 정상 설계 : 100건\n에러 주문 : 3건\n공장 결정 대상 : 11건`}</Animated.Text>
-
+                {`가통 정상 설계 : ${cntList[1]}건\n에러 주문 : ${cntList[2]}건\n공장 결정 대상 : ${cntList[4]}건`}
+            </Animated.Text>
         </View>
     )
 }

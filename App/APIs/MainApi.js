@@ -31,25 +31,28 @@ const MainApi = {
             .finally(() => {});
     },
 
-    getOrderList: async (kind, week, osMainStatusCd, faConfirmFlag, callback) => {
-    await axiosApi()
-      .get(
-        `/main?faConfirmFlag=${faConfirmFlag}&osMainStatusCd=${osMainStatusCd}`,
-        {
-          params: {
-            ordPdtItpCdN: kind != null ? kind : undefined,
-            ordThwTapWekCd: week != null ? week : undefined,
-          },
+    getOrderList: async (kind, week, status, flag, callback) => {
+        const params = {
+            ordPdtItpCdN: kind || undefined,
+            ordThwTapWekCd: week || undefined,
+            osMainStatusCd: status || undefined,
+            faConfirmFlag: flag || undefined,
+        };
+
+        // 배열인 경우 직접 쿼리 스트링 생성
+        if (Array.isArray(flag)) {
+            params.faConfirmFlag = flag.join(",");
         }
-      )
-      .then((response) => {
-        callback && callback(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {});
-  },
+
+        await axiosApi().get(`/main?`, { params })
+            .then((response) => {
+                callback && callback(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    },
 
   getOrder: async (no, callback) => {
     await axiosApi()
