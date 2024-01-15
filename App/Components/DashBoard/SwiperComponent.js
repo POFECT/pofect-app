@@ -4,7 +4,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { BarChart, LineChart, PieChart } from 'react-native-gifted-charts';
 
 const data = [
-    // BarChart data
+    // 데이터 부분
     [
         { value: 250, label: 'M' },
         { value: 500, label: 'T', frontColor: '#177AD5' },

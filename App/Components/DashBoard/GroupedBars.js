@@ -14,7 +14,7 @@ const InputStatusBar = () => {
                 spacing: 2,
                 labelWidth: 30,
                 labelTextStyle: { color: 'gray' },
-                frontColor: '#177AD5', // or any color you want to set
+                frontColor: '#177AD5',
             }));
             setBarData(newBarData);
         });
@@ -22,13 +22,14 @@ const InputStatusBar = () => {
 
     const renderTitle = () => {
         return (
-            <View style={{ marginVertical: 30 }}>
+            <View style={{ marginVertical: 55 ,marginTop:30}}>
                 <Text
                     style={{
                         color: 'white',
-                        fontSize: 20,
+                        fontSize: 18,
                         fontFamily: 'LINESeedKR-Bd',
                         textAlign: 'center',
+
                     }}>
                     품종 별 투입 현황
                 </Text>
@@ -37,7 +38,7 @@ const InputStatusBar = () => {
                         flex: 1,
                         flexDirection: 'row',
                         justifyContent: 'space-evenly',
-                        marginTop: 24,
+                        marginTop: 20,
                         backgroundColor: 'yellow',
                     }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -45,7 +46,7 @@ const InputStatusBar = () => {
                             style={{
                                 height: 12,
                                 width: 12,
-                                borderRadius: 6,
+                                borderRadius: 12,
                                 backgroundColor: '#177AD5',
                                 marginRight: 8,
                             }}
@@ -68,6 +69,7 @@ const InputStatusBar = () => {
     return (
         <View
             style={{
+                marginTop:-25,
                 paddingVertical: 70,
                 borderRadius: 10,
                 paddingHorizontal: 20,
@@ -77,7 +79,7 @@ const InputStatusBar = () => {
                 style={{
                     backgroundColor: '#333340',
                     paddingBottom: 40,
-                    borderRadius: 10,
+                    borderRadius: 20,
                     paddingHorizontal: 20,
                 }}>
                 {renderTitle()}
