@@ -16,48 +16,48 @@ import Size from "./App/Utils/Size";
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [fontsLoaded] =  useFonts({
-      'TheJamsil1Thin': require('./assets/fonts/TheJamsil1Thin.ttf'),
-      'TheJamsil2Light': require('./assets/fonts/TheJamsil2Light.ttf'),
-      'TheJamsil3Regular': require('./assets/fonts/TheJamsil3Regular.ttf'),
-      'TheJamsil4Medium': require('./assets/fonts/TheJamsil4Medium.ttf'),
-      'TheJamsil5Bold': require('./assets/fonts/TheJamsil5Bold.ttf'),
-      'TheJamsil6ExtraBold': require('./assets/fonts/TheJamsil6ExtraBold.ttf'),
-      'LINESeedKR-Bd': require('./assets/fonts/LINESeedKR-Bd.ttf'),
-      'LINESeedKR-Rg': require('./assets/fonts/LINESeedKR-Rg.ttf'),
-      'LINESeedKR-Th': require('./assets/fonts/LINESeedKR-Th.ttf'),
+    const [fontsLoaded] =  useFonts({
+        'TheJamsil1Thin': require('./assets/fonts/TheJamsil1Thin.ttf'),
+        'TheJamsil2Light': require('./assets/fonts/TheJamsil2Light.ttf'),
+        'TheJamsil3Regular': require('./assets/fonts/TheJamsil3Regular.ttf'),
+        'TheJamsil4Medium': require('./assets/fonts/TheJamsil4Medium.ttf'),
+        'TheJamsil5Bold': require('./assets/fonts/TheJamsil5Bold.ttf'),
+        'TheJamsil6ExtraBold': require('./assets/fonts/TheJamsil6ExtraBold.ttf'),
+        'LINESeedKR-Bd': require('./assets/fonts/LINESeedKR-Bd.ttf'),
+        'LINESeedKR-Rg': require('./assets/fonts/LINESeedKR-Rg.ttf'),
+        'LINESeedKR-Th': require('./assets/fonts/LINESeedKR-Th.ttf'),
     });
     if (!fontsLoaded) {
         // Font not loaded yet, return null or a loading indicator
         return null;
     }
 
-  return (
-      <SafeAreaView style={styles.container}>
-          <StatusBar />
-          <NavigationContainer>
-              <Stack.Navigator
-                  initialRouteName="Login"
-                  screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Login">
-                      {(props) => <Login {...props} />}
-                  </Stack.Screen>
-                  <Stack.Screen name="TabNavigation"
-                                component={TabNavigation} />
-              </Stack.Navigator>
-          </NavigationContainer>
-      </SafeAreaView>
+    return (
+        <SafeAreaView style={styles.container}>
+            <StatusBar />
+            <NavigationContainer>
+                <Stack.Navigator
+                    initialRouteName="Login"
+                    screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="Login">
+                        {(props) => <Login {...props} />}
+                    </Stack.Screen>
+                    <Stack.Screen name="TabNavigation"
+                                  component={TabNavigation} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </SafeAreaView>
 
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    // marginTop: StatusBar.currentHeight || 0,
-      paddingTop: Constants.statusBarHeight,
-      // padding: Size.width * 0.01,
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        // marginTop: StatusBar.currentHeight || 0,
+        paddingTop: Constants.statusBarHeight,
+        // padding: Size.width * 0.01,
 
-  },
+    },
 });

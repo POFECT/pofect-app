@@ -14,9 +14,26 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/favicon.png",
+          "color": "#ffffff"
+
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.poscodx.pofectApp"
+      "bundleIdentifier": "com.poscodx.pofectApp",
+      "permissions": {
+        "notifications": {
+          "alert": true,
+          "badge": true,
+          "sound": false
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {

@@ -30,7 +30,7 @@ const AppStack = () => (
             component={UserSetting}
             options={{
                 headerTitle: () => (
-                    <Text style={styles.headerTitle}>계정정보 설정</Text>
+                    <Text style={styles.headerTitle}>글씨 크기 설정</Text>
                 ),
                 headerTitleAlign: 'center',
                 headerBackground: () => (
@@ -59,7 +59,6 @@ const AppStack = () => (
     </Stack.Navigator>
 );
 
-// ... (other imports)
 
 const Setting = ({ navigation }) => {
 
@@ -77,7 +76,7 @@ const Setting = ({ navigation }) => {
 
     const generalSettings = [
         { label: '앱 알림 설정', onPress: goToSettings },
-        { label: '계정 정보 설정', onPress: goToUserSetting },
+        { label: '글씨 크기 설정', onPress: goToUserSetting },
     ];
 
     const infoSettings = [
@@ -87,7 +86,7 @@ const Setting = ({ navigation }) => {
     const userInformation = [
         { label: '계정명', value: '세균맨' },
         { label: '이메일', value: 'seguun@poscodx.com' },
-        // Add more user information as needed
+
     ];
 
     const renderSettingItem = ({ item }) => (

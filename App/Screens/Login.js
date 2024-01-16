@@ -12,8 +12,8 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import LoginVideo from "../Components/Login/LoginVideo";
 
 export default function Login({navigation}) {
-    LogBox.ignoreAllLogs();//Ignore all log notifications
 
+    LogBox.ignoreAllLogs();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

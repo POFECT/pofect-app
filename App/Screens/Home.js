@@ -7,7 +7,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { LogBox } from 'react-native';
 
 const Home = () => {
-    LogBox.ignoreAllLogs();//Ignore all log notifications
+    // 로그 무시하는 부분
+    LogBox.ignoreAllLogs();
 
     const MemoizedChartComponent = React.memo(ChartComponent);
 

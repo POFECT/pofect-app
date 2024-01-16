@@ -71,11 +71,11 @@ const styles = StyleSheet.create({
     },
     chartContainerOut: {
         width: 350,
-        paddingVertical: 20,
+        // paddingVertical: 40,
         paddingHorizontal: 16,
         backgroundColor: '#fff',
         borderRadius: 10,
-        marginTop: 8,
+        // marginTop: 5,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 
     },
     chartContainer:{
-        marginBottom: 15,
+        marginTop: 38,
         marginLeft:4,
 
     },

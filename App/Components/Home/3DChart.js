@@ -42,7 +42,7 @@
 //         requestAnimationFrame(animate);
 //     };
 //
-//     // Start the animation loop
+//
 //     animate();
 //
 //     return (

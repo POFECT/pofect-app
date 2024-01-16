@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import {View, Text, ScrollView, StyleSheet, Platform} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, Platform } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import MainApi from '../../APIs/MainApi';
+import { useFontSize } from "../Setting/fontProvider";
 
 export default function OrderInfoComponent({ searchTerm, orderData }) {
-    // const [orderData, setOrderData] = useState(null);
     const [tableHead, setTableHead] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [widthArr, setWidthArr] = useState([160, 180]);
+    const { fontSize } = useFontSize();
+    const [localFontSize, setLocalFontSize] = useState(fontSize);
 
     useEffect(() => {
         console.log('searchTerm', searchTerm);
-       if(orderData) {
+        if (orderData) {
             const displayNames = ['생성일', '주문투입출강주코드', '고객사명', 'OrderType', 'OrderLine주문량',
                 '공장결정구분', '가능통과공정코드', '확정통과공정코드'];
 
@@ -24,10 +26,15 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
             }));
             setTableHead(headers);
 
-            const rowData = headers.map(({key, displayName}) => [displayName, orderData[key]]);
+            const rowData = headers.map(({ key, displayName }) => [displayName, orderData[key]]);
             setTableData(rowData);
         }
     }, [searchTerm]);
+
+    // Update localFontSize when fontSize from context changes
+    useEffect(() => {
+        setLocalFontSize(fontSize);
+    }, [fontSize]);
 
     return (
         <ScrollView>
@@ -39,15 +46,14 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
                             <Row
                                 data={['설명', '정보']}
                                 widthArr={widthArr}
-                                style={ styles.row }
+                                style={styles.row}
                                 textStyle={styles.text}
                             />
                             <Rows
                                 data={tableData}
                                 widthArr={widthArr}
-                                style={ styles.row }
-                                textStyle={styles.textHeader}
-
+                                style={styles.row}
+                                textStyle={[styles.textHeader, { fontSize: localFontSize }]}  // Use localFontSize
                             />
                         </Table>
                     </View>
@@ -60,7 +66,7 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 2, paddingTop: 20, backgroundColor: '#fff',  },
+    container: { flex: 1, padding: 2, paddingTop: 20, backgroundColor: '#fff', },
     shadowContainer: {
         borderRadius: 16,
         ...Platform.select({
@@ -82,8 +88,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'TheJamsil3Regular',
         fontSize: 12,
-        margin:3,
-        color:'#09537F'
+        margin: 3,
+        color: '#09537F'
     },
     row: {
         height: 40,
@@ -91,14 +97,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         fontFamily: 'TheJamsil3Regular',
         fontSize: 12,
-
-
     },
     textHeader: {
         textAlign: 'center',
         fontFamily: 'TheJamsil3Regular',
         fontSize: 12,
         margin: 3,
-        fontWeight: 'bold', // You may adjust this based on your design
     },
 });
