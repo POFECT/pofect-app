@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Platform, StyleSheet} from 'react-native';
+import {View, Platform, StyleSheet, Text} from 'react-native';
 import {BarChart} from 'react-native-gifted-charts';
 import Size from "../../Utils/Size";
 
@@ -53,7 +53,23 @@ const ProgressChartExample = ({orderData}) => {
                    // marginRight:30,
                }}
                 rotateLabel
+                renderTooltip={(item, index) => {
+                    return (
+                        <View
+                            style={{
+                                marginBottom: 10,
+                                marginLeft: -3,
+                                backgroundColor: '#e9e9ea',
+                                paddingHorizontal: 6,
+                                paddingVertical: 4,
+                                borderRadius: 4,
+                                transform: [{ rotate: '-90deg' }],
 
+                            }}>
+                            <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
+                        </View>
+                    );
+                }}
 
             />
         </View>

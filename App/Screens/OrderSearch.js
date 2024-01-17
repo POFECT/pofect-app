@@ -3,20 +3,24 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
     TouchableWithoutFeedback,
-    TextInput,
-    Image,
     Platform,
+    TouchableOpacity,
     FlatList,
+    Button,
 } from 'react-native';
-import Animated, { useSharedValue, withSpring, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { StatusBar } from 'expo-status-bar';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
+import Animated, {
+    useSharedValue,
+    withSpring,
+    useAnimatedStyle,
+    withTiming
+} from 'react-native-reanimated';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {StatusBar} from 'expo-status-bar';
+import {createStackNavigator} from '@react-navigation/stack';
+import {Ionicons} from '@expo/vector-icons';
 import Colors from '../Utils/Colors';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import RecentSearch from "../Components/OrderSearch/RecentSearch";
 import Size from "../Utils/Size";
 import BasicInfoComponent from "../Components/OrderSearch/BasicInfoComponent";
@@ -24,6 +28,7 @@ import OrderInfoComponent from "../Components/OrderSearch/OrderInfoComponent";
 import VerticalStepIndicator from "../Components/OrderSearch/ProgressStepComponent";
 import MainApi from "../APIs/MainApi";
 import ProgressChartExample from "../Components/OrderSearch/ProgressChartExample";
+import {ALERT_TYPE, Dialog, AlertNotificationRoot,} from 'react-native-alert-notification';
 
 const Stack = createStackNavigator();
 
@@ -36,12 +41,16 @@ const AppStack = () => (
             options={{
                 headerTitle: () => (
                     <Text style={styles.headerTitle}>주문 상세 조회</Text>
-                ),                headerTitleAlign: 'center',
+                ), headerTitleAlign: 'center',
                 headerBackground: () => (
                     <View style={styles.headerBackground}>
                     </View>
                 ),
                 headerTintColor: 'black',
+                tabBarVisible: false,
+                headerLeft: () => null, // This will hide the back button
+
+
             }}
         />
         <Stack.Screen
@@ -50,7 +59,7 @@ const AppStack = () => (
             options={{
                 headerTitle: () => (
                     <Text style={styles.headerTitle}>주문 번호 검색</Text>
-                ),                headerTitleAlign: 'center',
+                ), headerTitleAlign: 'center',
                 headerBackground: () => (
                     <View style={styles.headerBackground}>
                     </View>
@@ -61,34 +70,78 @@ const AppStack = () => (
     </Stack.Navigator>
 );
 
-const OrderSearch = ({ route }) => {
-    const { searchTerm } = route.params || {};
+const OrderSearch = ({route}) => {
+
+
+    OrderSearch.navigationOptions = {
+        headerLeft: () => null, // 왼쪽으로 뒤로가기 버튼 숨기기
+    };
+
+    const {searchTerm } = route.params || {};
+    const [searchTermState, setSearchTerm] = useState( '')
     const [orderData, setOrderData] = useState(null);
+
+
+    //에러
+    const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+    const showErrorModal = () => {
+        setIsErrorModalVisible(true);
+    };
+    const handleNavigateToRecentSearch = () => {
+        setIsErrorModalVisible(false);
+        navigation.navigate('RecentSearch');
+        setSearchTerm('');
+
+    };
 
     console.log("주문번호 입력한거", searchTerm);
 
     useEffect(() => {
         setIndex(0);
-        MainApi.getOrderListByOrdNo(searchTerm, (data) => {
-            setOrderData(data.response);
-        })
 
-    }, [searchTerm]);
+        if (!searchTerm) {
+            setIsErrorModalVisible(false);
+        } else {
+            MainApi.getOrderListByOrdNo(
+                searchTerm,
+                (data) => {
+                    if (data.response) {
+                        setOrderData(data.response);
+                    }
+                },
+                () => {
+                    // Error callback
+                    setIsErrorModalVisible(true);
+
+                    Dialog.show({
+                        type: ALERT_TYPE.DANGER,
+                        title: '해당 주문 번호는 없는 번호입니다.',
+                        textBody: '올바른 주문 번호를 입력해주세요.',
+                        button: '돌아가기',
+                        closeOnOverlayTap : false,
+                        onPressButton: () => handleNavigateToRecentSearch(),
+                    });
+                }
+            );
+        }
+    }, [route]);
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'first', title: '주문 정보' },
-        { key: 'second', title: '진행 상태' },
-        { key: 'third', title: '재료 정보' },
+        {key: 'first', title: '주문 정보'},
+        {key: 'second', title: '진행 상태'},
+        {key: 'third', title: '재료 정보'},
     ]);
 
 
     const renderScene = SceneMap({
         first: () => (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
-                            backgroundColor:'#fff'}}>
+            <View style={{
+                flex: 1, justifyContent: 'center', alignItems: 'center',
+                backgroundColor: '#fff'
+            }}>
                 {searchTerm ? (
-                        <OrderInfoComponent searchTerm={searchTerm} orderData={orderData} />
+                    <OrderInfoComponent searchTerm={searchTerm} orderData={orderData}/>
                 ) : (
                     <>
                         <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
@@ -97,10 +150,12 @@ const OrderSearch = ({ route }) => {
             </View>
         ),
         second: () => (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
-                            backgroundColor:'#fff'}}>
+            <View style={{
+                flex: 1, justifyContent: 'center', alignItems: 'center',
+                backgroundColor: '#fff'
+            }}>
                 {searchTerm ? (
-                        <VerticalStepIndicator searchTerm={searchTerm} orderData={orderData}/>
+                    <VerticalStepIndicator searchTerm={searchTerm} orderData={orderData}/>
                 ) : (
                     <>
                         <Text style={styles.placeholderText}>주문번호를 입력해주세요.</Text>
@@ -111,12 +166,14 @@ const OrderSearch = ({ route }) => {
 
         ),
         third: () => (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',
-                backgroundColor:'#fff', padding:10,}}>
+            <View style={{
+                flex: 1, justifyContent: 'center', alignItems: 'center',
+                backgroundColor: '#fff', padding: 10,
+            }}>
 
                 {searchTerm ? (
                     <View style={styles.BasicInfoContainer}>
-                    <ProgressChartExample orderData={orderData}/>
+                        <ProgressChartExample orderData={orderData}/>
                     </View>
                 ) : (
                     <>
@@ -130,23 +187,23 @@ const OrderSearch = ({ route }) => {
     const renderTabBar = (props) => (
         <TabBar
             {...props}
-            indicatorStyle={{ backgroundColor: '#0A5380' }}
-            style={{ backgroundColor: '#fff'}}
-            labelStyle={{ color: '#0A5380' ,
-                            fontFamily: "LINESeedKR-Bd",
-                            fontSize: 15,}}
+            indicatorStyle={{backgroundColor: '#0A5380'}}
+            style={{backgroundColor: '#fff'}}
+            labelStyle={{
+                color: '#0A5380',
+                fontFamily: "LINESeedKR-Bd",
+                fontSize: 15,
+            }}
 
         />
     );
 
-    const opacity = useSharedValue(0);
-    const translateY = useSharedValue(100);
-    const scale = useSharedValue(0.8);
 
     useEffect(() => {
-        opacity.value = withTiming(1, { duration: 1000 });
-        translateY.value = withSpring(0);
-        scale.value = withSpring(1);
+        // This code will run only once during the initial render
+        console.log('Component mounted, do something here');
+
+        // Add your additional code that should run once here
 
     }, []);
 
@@ -160,13 +217,15 @@ const OrderSearch = ({ route }) => {
 
     // 기본 정보
     const data = orderData ? [
-        { iconName: 'ios-business', title: '포항', description: '구분' },
-        { iconName: 'analytics', title: orderData.osMainStatusCd, description: '진도' },
-        { iconName: 'pricetags', title: orderData.ordPdtItdsCdN, description: '품명' },
+        {iconName: 'ios-business', title: '포항', description: '구분'},
+        {iconName: 'analytics', title: orderData.osMainStatusCd, description: '진도'},
+        {iconName: 'pricetags', title: orderData.ordPdtItdsCdN, description: '품명'},
     ] : [];
 
+    console.log('isErrorModalVisible:', isErrorModalVisible);
 
     return (
+
         <View style={styles.container}>
             <StatusBar/>
             {/*Search*/}
@@ -187,7 +246,9 @@ const OrderSearch = ({ route }) => {
             </View>
 
             {/* BasicInfo */}
-            <Text style={styles.BasicInfoTitle}>기본 정보</Text>
+            {searchTerm && (
+<>
+                <Text style={styles.BasicInfoTitle}>기본 정보</Text>
             <View style={styles.BasicInfoContainer}>
                 {searchTerm ? (
                     <FlatList
@@ -210,7 +271,7 @@ const OrderSearch = ({ route }) => {
                 )}
             </View>
 
-
+</>)}
             <TabView
                 navigationState={{index, routes}}
                 renderScene={renderScene}
@@ -218,6 +279,20 @@ const OrderSearch = ({ route }) => {
                 initialLayout={{width: 300}}
                 renderTabBar={renderTabBar}
             />
+            {/*{isErrorModalVisible && (*/}
+            {/*    <View style={styles.fullScreenOverlay}>*/}
+            {/*        <ErrorModal onClose={() => setIsErrorModalVisible(false)} onNavigateToRecentSearch={handleNavigateToRecentSearch} />*/}
+            {/*    </View>*/}
+            {/*)}*/}
+            {isErrorModalVisible && (
+                <View style={styles.fullScreenOverlay} pointerEvents="box-only">
+                    <AlertNotificationRoot
+                        theme= 'light'
+                    onClose={() => setIsErrorModalVisible(false)}
+                    ></AlertNotificationRoot>
+                </View>
+            )}
+
         </View>
     );
 };
@@ -229,22 +304,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        paddingTop : 10,
+        paddingTop: 10,
 
     },
 
     searchContainer: {
-        backgroundColor:'white',
-        paddingLeft:15,
-        paddingRight:5,
-        borderRadius:99,
-        marginTop:14,
-        display:'flex',flexDirection:'row',justifyContent:'space-between'
+        backgroundColor: 'white',
+        paddingLeft: 15,
+        paddingRight: 5,
+        borderRadius: 99,
+        marginTop: 14,
+        display: 'flex', flexDirection: 'row', justifyContent: 'space-between'
     },
     searchInput: {
         height: 38,
         width: "86%",
-        backgroundColor:'#EBECEC',
+        backgroundColor: '#EBECEC',
         // borderColor: 'white',
         // borderWidth: 1,
         borderRadius: 10,
@@ -253,14 +328,14 @@ const styles = StyleSheet.create({
     },
     placeholderText: {
         color: '#444444',
-        fontFamily:'LINESeedKR-Rg',
-        transform:[{ translateX: Size.width * 0.02},
-            {translateY: Size.height * 0.012 }],
+        fontFamily: 'LINESeedKR-Rg',
+        transform: [{translateX: Size.width * 0.02},
+            {translateY: Size.height * 0.012}],
     },
     placeholderText2: {
         color: '#444444',
-        textAlign:"center",
-        fontFamily:'LINESeedKR-Rg',
+        textAlign: "center",
+        fontFamily: 'LINESeedKR-Rg',
     },
     headerBackground: {
         flex: 1,
@@ -276,20 +351,20 @@ const styles = StyleSheet.create({
     },
 
     BasicInfoTitle: {
-        color: '#0A5380' ,
+        color: '#0A5380',
         fontFamily: "LINESeedKR-Bd",
         fontSize: 15,
         marginTop: 10,
         marginLeft: 20
 
-},
+    },
     BasicInfoContainer: {
         backgroundColor: '#fff',
         padding: 20,
         borderRadius: 10,
         marginTop: 20,
         marginBottom: 25,
-        marginHorizontal:18,
+        marginHorizontal: 18,
 
         ...Platform.select({
             ios: {
@@ -313,9 +388,40 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 20,
         marginBottom: 25,
-        marginHorizontal:12,
+        marginHorizontal: 12,
 
 
     },
-
+    fullScreenOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgb(255,255,255)', // Adjust the opacity/color as needed
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContainer: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    errorText: {
+        color: 'red',
+        fontFamily: 'LINESeedKR-Bd', // Replace with your font family
+        fontSize: 16,
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    buttonContainer: {
+        backgroundColor: '#0A5380',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginTop: 20,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontFamily: 'YourFontFamily', // Replace with your font family
+        textAlign: 'center',
+    },
 });

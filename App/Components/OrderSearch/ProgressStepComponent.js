@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         marginTop:15,
-
+        marginLeft:12,
         backgroundColor: '#ffffff',
     },
     stepIndicator: {

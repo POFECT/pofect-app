@@ -6,19 +6,23 @@ import Size from '../Utils/Size';
 import DonutChart from '../Components/DashBoard/DonutChart';
 import GroupedBars from '../Components/DashBoard/GroupedBars';
 import MainApi from "../APIs/MainApi";
+import ChartComponent from "../Components/Home/BarChart";
 
 const Stack = createStackNavigator();
 
 const AppStack = () => (
-    <Stack.Navigator>
+    <Stack.Navigator >
         <Stack.Screen
-            name="Setting"
+
+            name="DashBoard"
             component={Dashboard}
             options={{
                 headerTitle: () => <Text style={styles.headerTitle}>DashBoard</Text>,
                 headerTitleAlign: 'center',
                 headerBackground: () => <View style={styles.headerBackground} />,
                 headerTintColor: 'black',
+                headerLeft: () => null,
+
             }}
         />
     </Stack.Navigator>
@@ -36,9 +40,13 @@ const Dashboard = () => {
     });
     const [cntList, setCntList] = useState([]);
 
+    //재렌더링
+    const MemoizedChartComponent = React.memo(GroupedBars);
+    const MemoizedDonutChartComponent = React.memo(DonutChart);
+
     const components = [
-        {id: 'donut', component: <DonutChart cntList={cntList} />  },
-        { id: 'groupedBars', component: <GroupedBars /> },
+        {id: 'donut', component: <MemoizedDonutChartComponent cntList={cntList} />  },
+        { id: 'groupedBars', component: <MemoizedChartComponent /> },
     ];
     console.log("*****",cntList)
 

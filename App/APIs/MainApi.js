@@ -2,7 +2,7 @@ import {axiosApi} from './api';
 
 const MainApi = {
 
-  getOrderListByOrdNo: async (ordNo, callback) => {
+  getOrderListByOrdNo: async (ordNo, callback, errorCallback) => {
     await axiosApi()
         .get(`/main/app/${ordNo}`)
         .then((response) => {
@@ -13,6 +13,9 @@ const MainApi = {
         })
         .catch((error) => {
           console.log(error);
+            console.log("****alert")
+            errorCallback && errorCallback();
+
         })
         .finally(() => {});
   },

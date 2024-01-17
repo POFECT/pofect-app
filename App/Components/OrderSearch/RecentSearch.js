@@ -17,6 +17,7 @@ const RecentSearch = ({ }) => {
     const navigateToOrderSearch = (searchTerm) => {
         console.log('Navigating to order search with searchTerm:', searchTerm);
         navigation.navigate('OrderSearch', { searchTerm });
+        // setSearchTerm('');
     };
 
     useEffect(() => {
@@ -48,8 +49,19 @@ const RecentSearch = ({ }) => {
 
     const saveRecentSearch = async () => {
         try {
-            // Save the recent search term
-            const updatedSearches = [...recentSearches, searchTerm];
+            const searches = await AsyncStorage.getItem('recentSearches');
+            let updatedSearches = [];
+
+            if (searches) {
+                const existingSearches = JSON.parse(searches);
+
+                // 중복 취소
+                updatedSearches = existingSearches.filter(search => search !== searchTerm);
+            }
+
+            updatedSearches.unshift(searchTerm);
+
+            // 검색어 저장
             setRecentSearches(updatedSearches);
             await AsyncStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
         } catch (error) {
@@ -59,7 +71,7 @@ const RecentSearch = ({ }) => {
 
     const clearRecentSearches = async () => {
         try {
-            // Clear recent searches
+            // 최근 검색어 삭제
             setRecentSearches([]);
             await AsyncStorage.removeItem('recentSearches');
         } catch (error) {

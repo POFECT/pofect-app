@@ -31,7 +31,7 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
         }
     }, [searchTerm]);
 
-    // Update localFontSize when fontSize from context changes
+    // 폰트 사이즈 확대
     useEffect(() => {
         setLocalFontSize(fontSize);
     }, [fontSize]);

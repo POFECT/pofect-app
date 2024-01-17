@@ -5,13 +5,13 @@ import React, { createContext, useContext, useState } from 'react';
 const FontSizeContext = createContext();
 
 export const FontSizeProvider = ({ children }) => {
-    const [fontSize, setFontSize] = useState(16); // Default font size
+    const [fontSize, setFontSize] = useState(12.5); // Default font size
     const MIN_FONT_SIZE = 10;
-    const MAX_FONT_SIZE = 20;
+    const MAX_FONT_SIZE = 18;
 
     const increaseFontSize = () => {
         setFontSize((prevSize) => {
-            const newSize = prevSize * 1.3;
+            const newSize = prevSize * 1.25;
             return newSize <= MAX_FONT_SIZE ? newSize : MAX_FONT_SIZE;
         });
     };

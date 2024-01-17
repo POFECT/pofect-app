@@ -93,11 +93,15 @@ const DonutChart = ({ cntList }) => {
                     진행 상태 별 주문 수
                 </Text>
                 <View style={{ padding: 20, alignItems: 'center' }}>
+
                     <PieChart
                         data={pieData}
                         donut
+                        textSize={20}
+
                         showGradient
                         sectionAutoFocus
+                        focusOnPress
                         radius={90}
                         innerRadius={60}
                         innerCircleColor={'#232B5D'}
@@ -113,6 +117,8 @@ const DonutChart = ({ cntList }) => {
                                 </View>
                             );
                         }}
+
+
                     />
                 </View>
                 {renderLegendComponent()}

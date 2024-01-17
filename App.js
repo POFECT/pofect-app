@@ -35,17 +35,36 @@ export default function App() {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar />
+            {/*<NavigationContainer>*/}
+            {/*    <Stack.Navigator*/}
+            {/*        initialRouteName="Login"*/}
+            {/*        screenOptions={{ headerShown: false }}>*/}
+            {/*        <Stack.Screen name="Login">*/}
+            {/*            {(props) => <Login {...props} />}*/}
+            {/*        </Stack.Screen>*/}
+            {/*        <Stack.Screen name="TabNavigation"*/}
+            {/*                      component={TabNavigation} />*/}
+            {/*    </Stack.Navigator>*/}
+            {/*</NavigationContainer>*/}
+
+
             <NavigationContainer>
                 <Stack.Navigator
-                    initialRouteName="Login"
-                    screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="Login">
-                        {(props) => <Login {...props} />}
-                    </Stack.Screen>
-                    <Stack.Screen name="TabNavigation"
-                                  component={TabNavigation} />
+
+                                 screenOptions={{ headerShown: false }}
+                >
+                    <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen
+                        name="TabNavigation"
+                        component={TabNavigation}
+                        options={{
+                            gestureEnabled: false,
+                            gestureDirection: 'vertical',
+                        }}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
+
         </SafeAreaView>
 
     );

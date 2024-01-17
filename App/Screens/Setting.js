@@ -23,6 +23,8 @@ const AppStack = () => (
                     </View>
                 ),
                 headerTintColor: 'black',
+                headerLeft: () => null, // This will hide the back button
+
             }}
         />
         <Stack.Screen
@@ -75,20 +77,24 @@ const Setting = ({ navigation }) => {
     };
 
     const generalSettings = [
-        { label: '앱 알림 설정', onPress: goToSettings },
         { label: '글씨 크기 설정', onPress: goToUserSetting },
     ];
 
     const infoSettings = [
-        { label: '공지사항', /* onPress: Add your navigation logic here */ },
+        // { label: '공지사항', /* onPress: Add your navigation logic here */ },
         { label: '앱 버전', onPress: goToAppVersion  },
     ];
     const userInformation = [
-        { label: '계정명', value: '세균맨' },
-        { label: '이메일', value: 'seguun@poscodx.com' },
+        { label: '계정명', value: 'pdxx001' },
+        { label: '이메일', value: 'pdxx001@poscodx.com' },
 
     ];
-
+    //로그아웃
+    const handleLogout = () => {
+        setTimeout(() => {
+            navigation.navigate('Login');
+        },1200)
+    };
     const renderSettingItem = ({ item }) => (
         <TouchableOpacity
             style={styles.infoItem}
@@ -119,7 +125,7 @@ const Setting = ({ navigation }) => {
                 />
                 <TouchableOpacity
                     style={styles.infoItem}
-                    onPress={() => console.log(' logout....')}
+                    onPress={handleLogout}
                 >
                     <Text style={styles.logout}>로그아웃</Text>
                 </TouchableOpacity>

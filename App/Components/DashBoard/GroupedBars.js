@@ -12,7 +12,7 @@ const InputStatusBar = () => {
                 value: item.count,
                 label: item.ordPdtItpCdN,
                 spacing: 2,
-                labelWidth: 30,
+                labelWidth: 20,
                 labelTextStyle: { color: 'gray' },
                 frontColor: '#177AD5',
             }));
@@ -96,6 +96,21 @@ const InputStatusBar = () => {
                     noOfSections={3}
                     maxValue={150}
                     isAnimated
+                    renderTooltip={(item, index) => {
+                        return (
+                            <View
+                                style={{
+                                    marginBottom: 10,
+                                    marginLeft: -3,
+                                    backgroundColor: '#e9e9ea',
+                                    paddingHorizontal: 6,
+                                    paddingVertical: 4,
+                                    borderRadius: 4,
+                                }}>
+                                <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
+                            </View>
+                        );
+                    }}
                 />
             </View>
         </View>

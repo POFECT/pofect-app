@@ -36,7 +36,9 @@ export default function TabNavigation() {
                         <FontAwesome5 name="home" size={20} color={color} />
                     ),
                     tabBarLabel: <Text style={styles.tabBarLabel}>홈</Text>
-,
+                    ,
+                headerLeft: (props) => null,
+
                 }}
             />
 
@@ -47,8 +49,8 @@ export default function TabNavigation() {
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="chart-bar" size={20} color={color} />
                     ),
-                    tabBarLabel: <Text style={styles.tabBarLabel}>Dashboard</Text>
-
+                    tabBarLabel: <Text style={styles.tabBarLabel}>Dashboard</Text>,
+                    headerLeft: null,
                 }}
             />
 

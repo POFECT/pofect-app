@@ -6,10 +6,9 @@ import Size from '../Utils/Size';
 import { LogBox } from 'react-native';
 import GradientText from './GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-
-import MaskedView from "@react-native-masked-view/masked-view";
 import LoginVideo from "../Components/Login/LoginVideo";
+import {ALERT_TYPE, AlertNotificationRoot, Dialog} from "react-native-alert-notification";
+import Setting from '../Screens/Setting'
 
 export default function Login({navigation}) {
 
@@ -17,45 +16,66 @@ export default function Login({navigation}) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loginSuccess, setLoginSuccess]= useState(false);
+    const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
+    useEffect(() => {
+
+        console.log('Login component visited');
+        setLoginSuccess(false);
+    }, [navigation]);
 
     const handleLogin = () => {
         // 로그인 처리
         console.log('Login Pressed');
         console.log('Username:', username);
         console.log('Password:', password);
+        if (
+            (username === 'pdxx001' && password === '1234') ||
+            (username === 'pdxx006' && password === '1234')
+        ) {
+            setTimeout(() => {
+                navigation.navigate('TabNavigation', { username, password });
+            }, 1200);
 
-        // 실제 로그인 처리
-        // const response = await api.post('/login', { username, password });
-        // const data = response.data;
+           //setting으로 데이터 전달
 
-        const loginSuccess = true;
-        if (loginSuccess) {
-            navigation.navigate('TabNavigation');
-        } else {
-            console.log('Login failed');
+
         }
+        else {
+            setTimeout(() => {
+                setIsErrorModalVisible(true);
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: '계정이 올바르지 않습니다.',
+                    textBody: '올바른 계정 정보를 입력해주세요.',
+                    button: '다시 입력',
+                    closeOnOverlayTap: false,
+                });
+            },1500)
+        }
+
+
+
+
 
     };
 
     return (
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.container}>
+            {isErrorModalVisible && (
+                <View style={styles.fullScreenOverlay} pointerEvents="box-only">
+                    <AlertNotificationRoot
+                        theme= 'light'
+                        onClose={() => Dialog.hide()}
+                    ></AlertNotificationRoot>
+                </View>
+            )}
           <LoginVideo />
             <View style={styles.shadow}>
                 {/*<View style={styles.contentBox}>*/}
                     <GradientText text="Experience the Factory Decision System on your mobile device for an efficient workflow" style={styles.semiText} />
-                    {/*<MaskedView maskElement={ <Text style ={[styles.semiText, {backgroundColor:'transparent'} ]}>"abc"</Text>*/}
-                    {/*}>*/}
-                    {/*    <LinearGradient*/}
-                    {/*        start={{ x: 0, y: 0 }}*/}
-                    {/*        end={{ x: 1, y: 1 }}*/}
-                    {/*        colors={['#a04b95','#7442B9', '#3F5486']}*/}
-                    {/*    >*/}
-                    {/*        <Text style ={[styles.semiText,{opacity:0} ]}>"abc"</Text>*/}
 
-                    {/*    </LinearGradient>*/}
-                    {/*</MaskedView>*/}
-                    {/* 로그인 폼 */}
                     <View style={styles.loginForm}>
                         <View style={styles.inputContainer}>
                             <Feather name="user" size={24} color={Colors.PRIMARY} style={styles.icon} />
@@ -91,6 +111,7 @@ export default function Login({navigation}) {
                     </View>
                 {/*</View>*/}
             </View>
+
         </KeyboardAvoidingView>
     );
 }
@@ -170,5 +191,11 @@ const styles = StyleSheet.create({
         color: Colors.WHITE,
         fontSize: 16,
         fontFamily: 'TheJamsil4Medium',
+    },
+    fullScreenOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgb(255,255,255)', // Adjust the opacity/color as needed
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
