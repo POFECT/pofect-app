@@ -26,12 +26,32 @@ const MyLineChart = ({ ordList }) => {
                     width={240}
                     height={200}
                     data={data}
+                    maxValue={200}
+
                     startFillColor="#232B5D"
                     startOpacity={0.8}
                     endFillColor="rgb(203, 241, 250)"
                     endOpacity={0.3}
                     isAnimated
+                    animationDuration={1200}
+
                     rotateLabel
+                    yMax={200}
+                    dataPointLabelComponent={(item, index) => {
+                        return (
+                            <View
+                                style={{
+                                    marginBottom: 10,
+                                    marginLeft: -3,
+                                    backgroundColor: '#e9e9ea',
+                                    paddingHorizontal: 6,
+                                    paddingVertical: 4,
+                                    borderRadius: 4,
+                                }}>
+                                <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
+                            </View>
+                        );
+                    }}
                 />
             </View>
             </View>

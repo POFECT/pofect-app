@@ -7,7 +7,7 @@ const InputStatusBar = () => {
     const [barData, setBarData] = useState([]);
 
     useEffect(() => {
-        DashBoardApi.getDashBoardInputStatus((responseData) => {
+        DashBoardApi.getDashBoardInputStatus('20240130',(responseData) => {
             const newBarData = responseData.response.map((item) => ({
                 value: item.count,
                 label: item.ordPdtItpCdN,
@@ -53,11 +53,11 @@ const InputStatusBar = () => {
                         />
                         <Text
                             style={{
-                                width: 30,
+                                width: 45,
                                 height: 16,
                                 color: 'lightgray',
                             }}>
-                            품종
+                            주문 수
                         </Text>
                     </View>
                     {/* You can add more legend points as needed */}
@@ -94,8 +94,10 @@ const InputStatusBar = () => {
                     yAxisThickness={0}
                     yAxisTextStyle={{ color: 'gray' }}
                     noOfSections={3}
-                    maxValue={150}
+                    maxValue={45}
                     isAnimated
+                    animationDuration={1200}
+
                     renderTooltip={(item, index) => {
                         return (
                             <View

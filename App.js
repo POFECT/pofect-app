@@ -12,7 +12,7 @@ import TabNavigation from "./App/Navigations/TabNavigation";
 //font
 import { useFonts } from 'expo-font';
 import Size from "./App/Utils/Size";
-
+import {FontSizeProvider} from "./App/Components/Setting/fontProvider";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -46,6 +46,7 @@ export default function App() {
             {/*                      component={TabNavigation} />*/}
             {/*    </Stack.Navigator>*/}
             {/*</NavigationContainer>*/}
+            <FontSizeProvider>
 
 
             <NavigationContainer>
@@ -53,7 +54,9 @@ export default function App() {
 
                                  screenOptions={{ headerShown: false }}
                 >
-                    <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="Login">
+                        {(props) => <Login {...props} />}
+                    </Stack.Screen>
                     <Stack.Screen
                         name="TabNavigation"
                         component={TabNavigation}
@@ -64,7 +67,7 @@ export default function App() {
                     />
                 </Stack.Navigator>
             </NavigationContainer>
-
+            </FontSizeProvider>
         </SafeAreaView>
 
     );

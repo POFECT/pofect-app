@@ -7,11 +7,11 @@ const BasicInfoComponent = ({ iconName, title, description }) => {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center',
                         marginBottom: 6, marginTop:6,
-                        marginRight: Size.width * 0.17
+                        marginRight: Size.width * 0.15
         }}>
             <Ionicons name={iconName}
                       size={20} color="#0A5380"
-                      style={{ marginRight: 12 ,}} />
+                      style={{ marginRight: 10 ,}} />
             <View>
                 <Text style={{ fontSize: 15,
                     marginBottom: 3,

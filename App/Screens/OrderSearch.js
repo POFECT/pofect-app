@@ -9,12 +9,7 @@ import {
     FlatList,
     Button,
 } from 'react-native';
-import Animated, {
-    useSharedValue,
-    withSpring,
-    useAnimatedStyle,
-    withTiming
-} from 'react-native-reanimated';
+
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {StatusBar} from 'expo-status-bar';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -32,43 +27,6 @@ import {ALERT_TYPE, Dialog, AlertNotificationRoot,} from 'react-native-alert-not
 
 const Stack = createStackNavigator();
 
-// 상단 bar
-const AppStack = () => (
-    <Stack.Navigator>
-        <Stack.Screen
-            name="OrderSearch"
-            component={OrderSearch}
-            options={{
-                headerTitle: () => (
-                    <Text style={styles.headerTitle}>주문 상세 조회</Text>
-                ), headerTitleAlign: 'center',
-                headerBackground: () => (
-                    <View style={styles.headerBackground}>
-                    </View>
-                ),
-                headerTintColor: 'black',
-                tabBarVisible: false,
-                headerLeft: () => null, // This will hide the back button
-
-
-            }}
-        />
-        <Stack.Screen
-            name="RecentSearch"
-            component={RecentSearch}
-            options={{
-                headerTitle: () => (
-                    <Text style={styles.headerTitle}>주문 번호 검색</Text>
-                ), headerTitleAlign: 'center',
-                headerBackground: () => (
-                    <View style={styles.headerBackground}>
-                    </View>
-                ),
-                headerTintColor: 'black',
-            }}
-        />
-    </Stack.Navigator>
-);
 
 const OrderSearch = ({route}) => {
 
@@ -78,9 +36,10 @@ const OrderSearch = ({route}) => {
     };
 
     const {searchTerm } = route.params || {};
-    const [searchTermState, setSearchTerm] = useState( '')
+    const [searchTermState, setSearchTerm] = useState(true);
     const [orderData, setOrderData] = useState(null);
 
+    // const []
 
     //에러
     const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -90,7 +49,7 @@ const OrderSearch = ({route}) => {
     const handleNavigateToRecentSearch = () => {
         setIsErrorModalVisible(false);
         navigation.navigate('RecentSearch');
-        setSearchTerm('');
+        setSearchTerm(false);
 
     };
 
@@ -112,7 +71,7 @@ const OrderSearch = ({route}) => {
                 () => {
                     // Error callback
                     setIsErrorModalVisible(true);
-
+                    setSearchTerm(false);
                     Dialog.show({
                         type: ALERT_TYPE.DANGER,
                         title: '해당 주문 번호는 없는 번호입니다.',
@@ -130,7 +89,7 @@ const OrderSearch = ({route}) => {
     const [routes] = React.useState([
         {key: 'first', title: '주문 정보'},
         {key: 'second', title: '진행 상태'},
-        {key: 'third', title: '재료 정보'},
+        {key: 'third', title: '폭/두께'},
     ]);
 
 
@@ -218,7 +177,7 @@ const OrderSearch = ({route}) => {
     // 기본 정보
     const data = orderData ? [
         {iconName: 'ios-business', title: '포항', description: '구분'},
-        {iconName: 'analytics', title: orderData.osMainStatusCd, description: '진도'},
+        {iconName: 'analytics', title: orderData.osMainStatusCd, description: 'OS 진도'},
         {iconName: 'pricetags', title: orderData.ordPdtItdsCdN, description: '품명'},
     ] : [];
 
@@ -298,7 +257,7 @@ const OrderSearch = ({route}) => {
 };
 
 
-export default AppStack;
+export default OrderSearch;
 
 const styles = StyleSheet.create({
     container: {
@@ -382,6 +341,7 @@ const styles = StyleSheet.create({
             },
         })
     },
+
     thirdTap: {
         backgroundColor: '#fff',
         padding: 20,

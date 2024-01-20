@@ -8,7 +8,7 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
     const [tableHead, setTableHead] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [widthArr, setWidthArr] = useState([160, 180]);
-    const { fontSize } = useFontSize();
+    const {fontSize} = useFontSize();
     const [localFontSize, setLocalFontSize] = useState(fontSize);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
         }
     }, [searchTerm]);
 
-    // 폰트 사이즈 확대
+    // Update localFontSize when fontSize from context changes
     useEffect(() => {
         setLocalFontSize(fontSize);
     }, [fontSize]);

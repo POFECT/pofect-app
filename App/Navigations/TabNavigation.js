@@ -3,10 +3,11 @@ import { Text, StyleSheet} from 'react-native';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Home from '../Screens/Home';
-import OrderSearch from "../Screens/OrderSearch";
+// import OrderSearch from "../Screens/OrderSearch";
 import Setting from '../Screens/Setting';
 import Dashboard from '../Screens/Dashboard'; // 대시보드 컴포넌트 import
 import { FontAwesome5 } from '@expo/vector-icons';
+import RecentSearch from "../Components/OrderSearch/RecentSearch";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -55,8 +56,8 @@ export default function TabNavigation() {
             />
 
             <Tab.Screen
-                name="OrderSearchTab"
-                component={OrderSearch}
+                name="RecentSearch"
+                component={RecentSearch}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="search" size={20} color={color} />

@@ -5,6 +5,51 @@ import Size from "../../Utils/Size";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../Utils/Colors";
 import { useNavigation } from "@react-navigation/native";
+import {createStackNavigator} from "@react-navigation/stack";
+import OrderSearch from "../../Screens/OrderSearch";
+
+const Stack = createStackNavigator();
+
+// 상단 bar
+const AppStack = () => (
+    <Stack.Navigator>
+        <Stack.Screen
+            name="RecentSearch"
+            component={RecentSearch}
+            options={{
+                headerTitle: () => (
+                    <Text style={styles.headerTitle}>주문 번호 검색</Text>
+                ), headerTitleAlign: 'center',
+                headerBackground: () => (
+                    <View style={styles.headerBackground}>
+                    </View>
+                ),
+                headerTintColor: 'black',
+                headerLeft: () => null, // This will hide the back button
+
+            }}
+        />
+        <Stack.Screen
+            name="OrderSearch"
+            component={OrderSearch}
+            options={{
+                headerTitle: () => (
+                    <Text style={styles.headerTitle}>주문 상세 조회</Text>
+                ), headerTitleAlign: 'center',
+                headerBackground: () => (
+                    <View style={styles.headerBackground}>
+                    </View>
+                ),
+                headerTintColor: 'black',
+                tabBarVisible: false,
+                headerLeft: () => null, // This will hide the back button
+
+
+            }}
+        />
+
+    </Stack.Navigator>
+);
 
 const RecentSearch = ({ }) => {
     const [recentSearches, setRecentSearches] = useState([]);
@@ -145,12 +190,23 @@ const RecentSearch = ({ }) => {
     );
 };
 
-export default RecentSearch;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+    },
+    headerBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderColor: 'white',
+    },
+    headerTitle: {
+        fontFamily: 'TheJamsil4Medium',
+        color: 'black',
+        fontSize: 18,
     },
 
     searchContainer: {
@@ -218,5 +274,8 @@ const styles = StyleSheet.create({
     },
     recentSearchText: {
         fontFamily: 'LINESeedKR-Bd',
+        justifyContent: 'center',
+
     }
 });
+export default AppStack;

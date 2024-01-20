@@ -21,6 +21,15 @@ const ProgressChartExample = ({orderData}) => {
             topColor: 'rgba(10,83,128,0.18)',
         },
     ]
+    const barData2 = [
+        {
+            value: orderData.orderThick,
+            label: 'Thick',
+            frontColor: 'rgba(10,83,128,0.73)',
+            sideColor: 'rgb(10,83,128)',
+            topColor: 'rgba(10,83,128,0.18)',
+        },
+    ]
     return (
         <View style={styles.chartContainerOut}>
 
@@ -72,7 +81,59 @@ const ProgressChartExample = ({orderData}) => {
                 }}
 
             />
+
         </View>
+            <View style={styles.chartContainer}>
+                <BarChart
+                    horizontal
+                    showFractionalValue
+                    showYAxisIndices
+                    hideRules
+                    noOfSections={5}
+                    // maxValue={700}
+                    data={barData2}
+                    // width={220}
+                    barWidth={40}
+                    sideWidth={25}
+                    isThreeD
+                    side="right"
+                    isAnimated
+                    xAxisLabelTextStyle={{
+                        textAlign: 'center',
+                        fontFamily: 'LINESeedKR-Bd',
+                        marginTop:-10,
+
+                    }}
+                    yAxisLabelTextStyle={{
+                        textAlign: 'center',
+                        fontFamily: 'LINESeedKR-Bd',
+                    }}
+                    barStyle={{
+                        // marginRight:30,
+                    }}
+                    rotateLabel
+                    renderTooltip={(item, index) => {
+                        return (
+                            <View
+                                style={{
+                                    marginBottom: 10,
+                                    marginLeft: -3,
+                                    backgroundColor: '#e9e9ea',
+                                    paddingHorizontal: 6,
+                                    paddingVertical: 4,
+                                    borderRadius: 4,
+                                    transform: [{ rotate: '-90deg' }],
+
+                                }}>
+                                <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
+                            </View>
+
+                        );
+                    }}
+
+                />
+
+            </View>
         </View>
     );
 };
@@ -87,6 +148,8 @@ const styles = StyleSheet.create({
     },
     chartContainerOut: {
         width: 350,
+        height: 300,
+
         // paddingVertical: 40,
         paddingHorizontal: 16,
         backgroundColor: '#fff',
@@ -101,7 +164,7 @@ const styles = StyleSheet.create({
 
     },
     chartContainer:{
-        marginTop: 38,
+        marginBottom: -100,
         marginLeft:4,
 
     },
