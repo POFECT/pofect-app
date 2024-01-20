@@ -69,9 +69,9 @@ const MainApi = {
       .finally(() => {});
   },
 
-  getCodeNameList: async (callback) => {
+    cfrmOrderCount: async (callback) => {
     await axiosApi()
-      .get("/etc/business")
+      .get("/main/cfrmOrderCount")
       .then((response) => {
         callback && callback(response.data);
       })
