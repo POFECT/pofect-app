@@ -9,80 +9,85 @@ const ProgressChartExample = ({orderData}) => {
     }
 
     useEffect(() => {
-        console.log('Order Data:', orderData); // Log orderData here to check its value
+        // console.log('Order Data:', orderData); //
 
     }, [orderData]);
     const barData = [
         {
             value: orderData.orderWidth,
             label: 'Width',
-            frontColor: 'rgba(10,83,128,0.73)',
-            sideColor: 'rgb(10,83,128)',
-            topColor: 'rgba(10,83,128,0.18)',
+            frontColor: 'rgba(173,193,230,0.73)',  // Light Blue
+            sideColor: 'rgb(173,189,230)',           // Light Blue
+            topColor: 'rgba(173, 216, 230, 0.18)',     // Light Blue
         },
-    ]
+    ];
+
     const barData2 = [
         {
             value: orderData.orderThick,
             label: 'Thick',
-            frontColor: 'rgba(10,83,128,0.73)',
-            sideColor: 'rgb(10,83,128)',
-            topColor: 'rgba(10,83,128,0.18)',
+            frontColor: 'rgba(255, 182, 193, 0.73)',  // Light Pink
+            sideColor: 'rgb(255, 182, 193)',           // Light Pink
+            topColor: 'rgba(255, 182, 193, 0.18)',     // Light Pink
         },
-    ]
+    ];
     return (
         <View style={styles.chartContainerOut}>
 
             <View style={styles.chartContainer}>
-            <BarChart
-                horizontal
-                showFractionalValue
-                showYAxisIndices
-                hideRules
-                noOfSections={5}
-                maxValue={3000}
-                data={barData}
-                // width={220}
-                barWidth={40}
-                sideWidth={25}
-                isThreeD
-                side="right"
-                isAnimated
-                xAxisLabelTextStyle={{
-                    textAlign: 'center',
-                    fontFamily: 'LINESeedKR-Bd',
-                    marginTop:-10,
+                <BarChart
+                    horizontal
+                    showFractionalValue
+                    showYAxisIndices
+                    hideRules
+                    noOfSections={5}
+                    maxValue={3000}
+                    data={barData}
+                    // width={220}
+                    barWidth={40}
+                    sideWidth={25}
+                    isThreeD
+                    side="right"
+                    yAxisAtTop
+                    yAxisLabelSuffix="mm"
+                    yAxisTextNumberOfLines={2}
+                    isAnimated
+                    hideOrigin
+                    xAxisLabelTextStyle={{
+                        textAlign: 'center',
+                        fontFamily: 'LINESeedKR-Bd',
+                        marginTop: -10,
 
-                }}
-                yAxisLabelTextStyle={{
-                    textAlign: 'center',
-                    fontFamily: 'LINESeedKR-Bd',
-                }}
-               barStyle={{
-                   // marginRight:30,
-               }}
-                rotateLabel
-                renderTooltip={(item, index) => {
-                    return (
-                        <View
-                            style={{
-                                marginBottom: 10,
-                                marginLeft: -3,
-                                backgroundColor: '#e9e9ea',
-                                paddingHorizontal: 6,
-                                paddingVertical: 4,
-                                borderRadius: 4,
-                                transform: [{ rotate: '-90deg' }],
+                    }}
+                    yAxisLabelTextStyle={{
+                        textAlign: 'center',
+                        fontFamily: 'LINESeedKR-Bd',
+                    }}
+                    barStyle={{
+                        // marginRight:30,
+                    }}
+                    rotateLabel
+                    renderTooltip={(item, index) => {
+                        return (
+                            <View
+                                style={{
+                                    marginBottom: 10,
+                                    marginLeft: -5,
+                                    backgroundColor: '#e9e9ea',
+                                    paddingHorizontal: 6,
+                                    paddingVertical: 4,
+                                    borderRadius: 4,
+                                    transform: [{rotate: '-90deg'}],
 
-                            }}>
-                            <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
-                        </View>
-                    );
-                }}
+                                }}>
+                                <Text style={{fontFamily: 'LINESeedKR-Bd'}}>{item.value}</Text>
+                            </View>
+                        );
+                    }}
 
-            />
+                />
 
-        </View>
+            </View>
             <View style={styles.chartContainer}>
                 <BarChart
                     horizontal
@@ -101,7 +106,7 @@ const ProgressChartExample = ({orderData}) => {
                     xAxisLabelTextStyle={{
                         textAlign: 'center',
                         fontFamily: 'LINESeedKR-Bd',
-                        marginTop:-10,
+                        marginTop: -10,
 
                     }}
                     yAxisLabelTextStyle={{
@@ -122,10 +127,10 @@ const ProgressChartExample = ({orderData}) => {
                                     paddingHorizontal: 6,
                                     paddingVertical: 4,
                                     borderRadius: 4,
-                                    transform: [{ rotate: '-90deg' }],
+                                    transform: [{rotate: '-90deg'}],
 
                                 }}>
-                                <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
+                                <Text style={{fontFamily: 'LINESeedKR-Bd'}}>{item.value}</Text>
                             </View>
 
                         );
@@ -165,7 +170,7 @@ const styles = StyleSheet.create({
     },
     chartContainer:{
         marginBottom: -100,
-        marginLeft:4,
+        marginLeft:0,
 
     },
 });
