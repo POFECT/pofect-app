@@ -25,7 +25,6 @@ const Home = () => {
         MainApi.getOrdCnt((data) => {
             setOrdList(data.response);
         });
-        console.log("ordList", ordList);
     };
 
     // Fetch data when the screen comes into focus

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import DashBoardApi from '../../APIs/DashBoardApi';
+import { useTranslation } from 'react-i18next';
 
 const InputStatusBar = () => {
+    const { t } = useTranslation();
+
     const [barData, setBarData] = useState([]);
 
     useEffect(() => {
@@ -14,24 +17,26 @@ const InputStatusBar = () => {
                 spacing: 2,
                 labelWidth: 20,
                 labelTextStyle: { color: 'gray' },
-                frontColor: '#177AD5',
+                frontColor: '#5D8BF4',
             }));
             setBarData(newBarData);
         });
     }, []);
+
 
     const renderTitle = () => {
         return (
             <View style={{ marginVertical: 55 ,marginTop:30}}>
                 <Text
                     style={{
+                        marginTop:-10,
                         color: 'white',
                         fontSize: 18,
                         fontFamily: 'LINESeedKR-Bd',
                         textAlign: 'center',
 
                     }}>
-                    품종 별 투입 현황
+                    {t('dashboardComponent.orderByItemType')}
                 </Text>
                 <View
                     style={{
@@ -47,7 +52,7 @@ const InputStatusBar = () => {
                                 height: 12,
                                 width: 12,
                                 borderRadius: 12,
-                                backgroundColor: '#177AD5',
+                                backgroundColor: '#5D8BF4',
                                 marginRight: 8,
                             }}
                         />
@@ -57,7 +62,7 @@ const InputStatusBar = () => {
                                 height: 16,
                                 color: 'lightgray',
                             }}>
-                            주문 수
+                            {t('dashboardComponent.orderCnt')}
                         </Text>
                     </View>
                     {/* You can add more legend points as needed */}
@@ -69,20 +74,22 @@ const InputStatusBar = () => {
     return (
         <View
             style={{
-                marginTop:-25,
-                paddingVertical: 70,
+                paddingVertical: 25,
                 borderRadius: 10,
-                paddingHorizontal: 20,
                 backgroundColor: '#e9e9ea',
+                marginTop : -10
             }}>
             <View
                 style={{
                     backgroundColor: '#333340',
-                    paddingBottom: 40,
+                    margin: 20,
+                    padding: 16,
                     borderRadius: 20,
-                    paddingHorizontal: 20,
                 }}>
                 {renderTitle()}
+
+                <View style={{ padding: 20, alignItems: 'center' }}>
+
                 <BarChart
                     data={barData}
                     barWidth={22}
@@ -90,11 +97,17 @@ const InputStatusBar = () => {
                     roundedTop
                     roundedBottom
                     hideRules
+                    yAxisTextStyle={{
+                        fontFamily: 'LINESeedKR-Bd',
+                        marginLeft:-10,
+                        color: 'gray'
+                    }}
                     xAxisThickness={0}
                     yAxisThickness={0}
-                    yAxisTextStyle={{ color: 'gray' }}
                     noOfSections={3}
                     maxValue={45}
+
+
                     isAnimated
                     animationDuration={1200}
 
@@ -114,6 +127,7 @@ const InputStatusBar = () => {
                         );
                     }}
                 />
+            </View>
             </View>
         </View>
     );

@@ -1,0 +1,85 @@
+{
+  "greeting": "Hello!",
+  "welcome": "Welcome to our app!",
+  "buttonText": "Click me",
+  "selectLanguage" : "Select Your Language",
+  "errorMessages": {
+    "notFound": "The page you requested was not found.",
+    "serverError": "Internal server error. Please try again later."
+  },
+
+  "setting": "Settings",
+  "home": "Home",
+  "orderSearch": "OrderSearch",
+
+  "homeComponent": {
+    "week": "OrderWeek",
+    "weekByOrderCnt": "Order Statistics By OrderWeek",
+    "possible": "POSB_PASS_Normal",
+    "error": "POSB_PASS_Error",
+    "confirm": "CFM_PASS_Target",
+    "unit": "Cnt"
+  },
+  "dashboardComponent": {
+    "state": "Number Of Orders By Status",
+    "order": "Order complete",
+    "possible": "design ",
+    "possibleConfirm": "Acceptance confirmed",
+    "confirm": "factory decision",
+    "input": "Manufacturing input",
+    "orderByItemType": "Status Of Orders By Type",
+    "orderCnt": "orders",
+    "FactoryLoad": "Factory Load Forecast Status",
+    "unit": "Num"
+
+  },
+  "orderSearchComponent": {
+    "input": "Please enter your order number.",
+    "deep": "Order Detail",
+
+    "recent": "Recent Searches",
+    "remove": "delete",
+    "basic": "Basic Info",
+    "pohang": "PH",
+    "status": "status",
+      "w": "Width/Thick",
+    "osStatus": "OS progress",
+    "orderData": "Order Info",
+    "orderNotFound": "The order number does not exist.",
+    "orderPrompt": "Please enter a valid order number.",
+    "goBack": "Go Back",
+    "des": "Description",
+    "info": "Info"
+  },
+  "creationDate": "Creation Date",
+  "orderInputSteelBarCode": "Order Input Week",
+  "clientName": "Client Name",
+  "orderType": "Order Type",
+  "orderQuantity": "Order Quantity (t)",
+  "factoryDecisionCategory": "Factory Decision Category",
+  "possibleProcessCode": "Possible Process Code",
+  "confirmedProcessCode": "Confirmed Process Code",
+  "category": "City",
+  "progress": "OS",
+  "productName": "Product",
+
+  "designPossiblePassPlant": "POSB_PASS DGN",
+  "confirmPossiblePassPlant": "POSB_PASS CFM",
+  "orderComplete": "Order",
+  "designPass": "POSB_PASS DGN",
+  "confirmPass": "POSB_PASS CFM",
+  "factoryDecision": "CFM_PASS",
+  "manufacturingInput": "Manufacturing ",
+  "settingComponent": {
+    "my": "My Account",
+    "title": "Setting font size",
+    "sample": "Font size SAMPLE",
+    "global": "Global settings",
+    "version": "App version",
+    "account": "Account information",
+    "email": "email",
+    "logout": "Logout",
+    "basic": "Basic",
+    "info": "Info"
+  }
+}

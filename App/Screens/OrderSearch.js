@@ -24,12 +24,14 @@ import VerticalStepIndicator from "../Components/OrderSearch/ProgressStepCompone
 import MainApi from "../APIs/MainApi";
 import ProgressChartExample from "../Components/OrderSearch/ProgressChartExample";
 import {ALERT_TYPE, Dialog, AlertNotificationRoot,} from 'react-native-alert-notification';
+import {useTranslation} from "react-i18next";
 
 const Stack = createStackNavigator();
 
 
 const OrderSearch = ({route}) => {
 
+    const { t } = useTranslation();
 
     OrderSearch.navigationOptions = {
         headerLeft: () => null, // 왼쪽으로 뒤로가기 버튼 숨기기
@@ -53,7 +55,7 @@ const OrderSearch = ({route}) => {
 
     };
 
-    console.log("주문번호 입력한거", searchTerm);
+    // console.log("주문번호 입력한거", searchTerm);
 
     useEffect(() => {
         setIndex(0);
@@ -86,11 +88,15 @@ const OrderSearch = ({route}) => {
     }, [route]);
 
     const [index, setIndex] = React.useState(0);
-    const [routes] = React.useState([
-        {key: 'first', title: '주문 정보'},
-        {key: 'second', title: '진행 상태'},
-        {key: 'third', title: '폭/두께'},
-    ]);
+    const [routes, setRoutes] = useState([]);
+
+    useEffect(() => {
+        setRoutes([
+            { key: 'first', title: t('orderSearchComponent.orderData') },
+            { key: 'second', title: t('orderSearchComponent.status') },
+            { key: 'third', title: t('orderSearchComponent.w') },
+        ]);
+    }, [t]);
 
 
     const renderScene = SceneMap({
@@ -146,10 +152,10 @@ const OrderSearch = ({route}) => {
     const renderTabBar = (props) => (
         <TabBar
             {...props}
-            indicatorStyle={{backgroundColor: '#0A5380'}}
+            indicatorStyle={{backgroundColor: '#051367'}}
             style={{backgroundColor: '#fff'}}
             labelStyle={{
-                color: '#0A5380',
+                color: '#051367',
                 fontFamily: "LINESeedKR-Bd",
                 fontSize: 15,
             }}
@@ -176,9 +182,9 @@ const OrderSearch = ({route}) => {
 
     // 기본 정보
     const data = orderData ? [
-        {iconName: 'ios-business', title: '포항', description: '구분'},
-        {iconName: 'analytics', title: orderData.osMainStatusCd, description: 'OS 진도'},
-        {iconName: 'pricetags', title: orderData.ordPdtItdsCdN, description: '품명'},
+        { iconName: 'ios-business', title: t('orderSearchComponent.pohang'), description: t('category') },
+        { iconName: 'analytics', title: orderData.osMainStatusCd, description: t('progress') },
+        { iconName: 'pricetags', title: orderData.ordPdtItdsCdN, description: t('productName') }
     ] : [];
 
     console.log('isErrorModalVisible:', isErrorModalVisible);
@@ -207,7 +213,7 @@ const OrderSearch = ({route}) => {
             {/* BasicInfo */}
             {searchTerm && (
 <>
-                <Text style={styles.BasicInfoTitle}>기본 정보</Text>
+                <Text style={styles.BasicInfoTitle}>{t('orderSearchComponent.basic')}</Text>
             <View style={styles.BasicInfoContainer}>
                 {searchTerm ? (
                     <FlatList

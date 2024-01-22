@@ -2,154 +2,186 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import UserSetting from "../Components/Setting/UserSetting";
+import { useRoute } from '@react-navigation/native'; // Import useRoute hook
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 import AppVersion from "../Components/Setting/AppVersion";
+import GlobalSetting from "../Components/Setting/GlobalSetting";
+import { useTranslation } from 'react-i18next';
+
 const Stack = createStackNavigator();
 
+
 // 상단 bar
-const AppStack = () => (
-    <Stack.Navigator>
-        <Stack.Screen
-            name="Setting"
-            component={Setting}
-            options={{
-                headerTitle: () => (
-                    <Text style={styles.headerTitle}>설정</Text>
-                ),
-                headerTitleAlign: 'center',
-                headerBackground: () => (
-                    <View style={styles.headerBackground}>
-                    </View>
-                ),
-                headerTintColor: 'black',
-                headerLeft: () => null, // This will hide the back button
+const AppStack = ({username}) => {
+    const { t } = useTranslation();
 
-            }}
-        />
-        <Stack.Screen
-            name="UserSetting"
-            component={UserSetting}
-            options={{
-                headerTitle: () => (
-                    <Text style={styles.headerTitle}>글씨 크기 설정</Text>
-                ),
-                headerTitleAlign: 'center',
-                headerBackground: () => (
-                    <View style={styles.headerBackground}>
-                    </View>
-                ),
-                headerTintColor: 'black',
-            }}
-        />
+    const Setting = ({ navigation,}) => {
 
-        <Stack.Screen
-            name="AppVersion"
-            component={AppVersion}
-            options={{
-                headerTitle: () => (
-                    <Text style={styles.headerTitle}>앱 버전</Text>
-                ),
-                headerTitleAlign: 'center',
-                headerBackground: () => (
-                    <View style={styles.headerBackground}>
-                    </View>
-                ),
-                headerTintColor: 'black',
-            }}
-        />
-    </Stack.Navigator>
-);
+        // const  username  = route.params;
 
+        const goToSettings = () => {
+            console.log('Navigate to App Settings');
+        };
 
-const Setting = ({ navigation }) => {
+        const goToUserSetting = () => {
+            navigation.navigate('UserSetting');
+        };
+        const goToGlobalSetting = () => {
+            navigation.navigate('GlobalSetting');
+        };
 
-    const goToSettings = () => {
-        console.log('Navigate to App Settings');
-    };
+        const goToAppVersion = () => {
+            navigation.navigate('AppVersion');
+        };
 
-    const goToUserSetting = () => {
-        navigation.navigate('UserSetting');
-    };
+        const generalSettings = [
+            { label: t('settingComponent.title'), onPress: goToUserSetting },
+            { label: t('settingComponent.global'), onPress: goToGlobalSetting },
+        ];
 
-    const goToAppVersion = () => {
-        navigation.navigate('AppVersion');
-    };
+        const infoSettings = [
+            { label: t('settingComponent.version'), onPress: goToAppVersion  },
+        ];
 
-    const generalSettings = [
-        { label: '글씨 크기 설정', onPress: goToUserSetting },
-    ];
+        const userInformation = [
+            { label: t('settingComponent.account'), value: username },
+            { label: t('settingComponent.email'), value: `${username}@poscodx.com` }
+        ];
 
-    const infoSettings = [
-        // { label: '공지사항', /* onPress: Add your navigation logic here */ },
-        { label: '앱 버전', onPress: goToAppVersion  },
-    ];
-    const userInformation = [
-        { label: '계정명', value: 'pdxx001' },
-        { label: '이메일', value: 'pdxx001@poscodx.com' },
+        //로그아웃
+        const handleLogout = () => {
+            setTimeout(() => {
+                navigation.navigate('Login');
+            },1200)
+        };
+        const renderSettingItem = ({ item }) => (
+            <TouchableOpacity
+                style={styles.infoItem}
+                onPress={item.onPress}
+            >
+                <Text style={styles.infoLabel}>{item.label}</Text>
+                <View style={styles.rightArrowContainer}>
+                    <Icon name="angle-right" style={styles.rightArrow} />
+                </View>
+            </TouchableOpacity>
+        );
 
-    ];
-    //로그아웃
-    const handleLogout = () => {
-        setTimeout(() => {
-            navigation.navigate('Login');
-        },1200)
-    };
-    const renderSettingItem = ({ item }) => (
-        <TouchableOpacity
-            style={styles.infoItem}
-            onPress={item.onPress}
-        >
-            <Text style={styles.infoLabel}>{item.label}</Text>
-            <View style={styles.rightArrowContainer}>
-                <Icon name="angle-right" style={styles.rightArrow} />
+        const renderUserInformationItem = ({ item }) => (
+            <View style={styles.infoItem}>
+                <Text style={styles.infoLabel}>{item.label}:</Text>
+                <Text style={styles.userInformationValue}>{item.value}</Text>
             </View>
-        </TouchableOpacity>
-    );
+        );
 
-    const renderUserInformationItem = ({ item }) => (
-        <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>{item.label}:</Text>
-            <Text style={styles.userInformationValue}>{item.value}</Text>
-        </View>
-    );
+        return (
+            <View style={styles.container}>
+                <View style={styles.body}>
+                    <Text style={styles.sectionTitle}>{t('settingComponent.my')}</Text>
+                    <FlatList
+                        data={userInformation}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderUserInformationItem}
+                    />
+                    <TouchableOpacity
+                        style={styles.infoItem}
+                        onPress={handleLogout}
+                    >
+                        <Text style={styles.logout}>{t('settingComponent.logout')}</Text>
+                    </TouchableOpacity>
+                    <View style={styles.line} />
+                    <Text style={styles.sectionTitle}>{t('settingComponent.basic')}</Text>
+                    <FlatList
+                        data={generalSettings}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderSettingItem}
+                    />
+                    <View style={styles.line} />
+
+                    <Text style={styles.sectionTitle}>{t('settingComponent.info')}</Text>
+                    <FlatList
+                        data={infoSettings}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderSettingItem}
+                    />
+
+
+                </View>
+            </View>
+        );
+    };
+
 
     return (
-        <View style={styles.container}>
-            <View style={styles.body}>
-                <Text style={styles.sectionTitle}>내 정보</Text>
-                <FlatList
-                    data={userInformation}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={renderUserInformationItem}
-                />
-                <TouchableOpacity
-                    style={styles.infoItem}
-                    onPress={handleLogout}
-                >
-                    <Text style={styles.logout}>로그아웃</Text>
-                </TouchableOpacity>
-                <View style={styles.line} />
-                <Text style={styles.sectionTitle}>일반</Text>
-                <FlatList
-                    data={generalSettings}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={renderSettingItem}
-                />
-                <View style={styles.line} />
 
-                <Text style={styles.sectionTitle}>정보</Text>
-                <FlatList
-                    data={infoSettings}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={renderSettingItem}
-                />
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Settings"
+                component={Setting}
+                options={{
+                    headerTitle: () => (
+                        <Text style={styles.headerTitle}>{t('setting')}</Text>
+                    ),
+                    headerTitleAlign: 'center',
+                    headerBackground: () => (
+                        <View style={styles.headerBackground}>
+                        </View>
+                    ),
+                    headerTintColor: 'black',
+                    headerLeft: () => null, // This will hide the back button
 
+                }}
+            />
+            <Stack.Screen
+                name="UserSetting"
+                component={UserSetting}
+                options={{
+                    headerTitle: () => (
+                        <Text style={styles.headerTitle}>{t('settingComponent.title')}</Text>
+                    ),
+                    headerTitleAlign: 'center',
+                    headerBackground: () => (
+                        <View style={styles.headerBackground}>
+                        </View>
+                    ),
+                    headerTintColor: 'black',
+                }}
+            />
+            <Stack.Screen
+                name="GlobalSetting"
+                component={GlobalSetting}
+                options={{
+                    headerTitle: () => (
+                        <Text style={styles.headerTitle}>{t('settingComponent.global')}</Text>
+                    ),
+                    headerTitleAlign: 'center',
+                    headerBackground: () => (
+                        <View style={styles.headerBackground}>
+                        </View>
+                    ),
+                    headerTintColor: 'black',
+                }}
+            />
 
-            </View>
-        </View>
+            <Stack.Screen
+                name="AppVersion"
+                component={AppVersion}
+                options={{
+                    headerTitle: () => (
+                        <Text style={styles.headerTitle}>{t('settingComponent.version')}</Text>
+                    ),
+                    headerTitleAlign: 'center',
+                    headerBackground: () => (
+                        <View style={styles.headerBackground}>
+                        </View>
+                    ),
+                    headerTintColor: 'black',
+                }}
+            />
+        </Stack.Navigator>
     );
-};
+}
+
 
 
 
@@ -203,7 +235,7 @@ const styles = StyleSheet.create({
     infoLabel: {
         backgroundColor:"#fff",
         fontSize: 14,
-        width: 100,
+        width: 200,
         fontFamily: 'TheJamsil3Regular',
         color: '#2c3e50',
     },

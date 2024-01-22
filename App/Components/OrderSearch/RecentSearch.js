@@ -7,18 +7,21 @@ import Colors from "../../Utils/Colors";
 import { useNavigation } from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import OrderSearch from "../../Screens/OrderSearch";
+import { useTranslation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
 // 상단 bar
-const AppStack = () => (
+const AppStack = () => {
+    const {t} = useTranslation();
+return(
     <Stack.Navigator>
         <Stack.Screen
             name="RecentSearch"
             component={RecentSearch}
             options={{
                 headerTitle: () => (
-                    <Text style={styles.headerTitle}>주문 번호 검색</Text>
+                    <Text style={styles.headerTitle}>{t('orderSearch')}</Text>
                 ), headerTitleAlign: 'center',
                 headerBackground: () => (
                     <View style={styles.headerBackground}>
@@ -34,7 +37,7 @@ const AppStack = () => (
             component={OrderSearch}
             options={{
                 headerTitle: () => (
-                    <Text style={styles.headerTitle}>주문 상세 조회</Text>
+                    <Text style={styles.headerTitle}>{t('orderSearchComponent.deep')}</Text>
                 ), headerTitleAlign: 'center',
                 headerBackground: () => (
                     <View style={styles.headerBackground}>
@@ -49,9 +52,12 @@ const AppStack = () => (
         />
 
     </Stack.Navigator>
-);
+)
+};
 
 const RecentSearch = ({ }) => {
+    const { t } = useTranslation();
+
     const [recentSearches, setRecentSearches] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const textInputRef = useRef();
@@ -130,10 +136,12 @@ const RecentSearch = ({ }) => {
                 <TextInput
                     ref={textInputRef}
                     style={styles.searchInput}
-                    placeholder="주문번호를 입력해주세요."
+                    placeholder={t('orderSearchComponent.input')}
                     placeholderTextColor="#333333"
                     value={searchTerm}
                     onChangeText={(text) => setSearchTerm(text)}
+                    maxLength={15}
+
                 />
                 {searchTerm.trim() !== '' && (
                     <Ionicons
@@ -152,11 +160,11 @@ const RecentSearch = ({ }) => {
 
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
-                    <Text style={styles.RecentTitle}>최근 검색어</Text>
+                    <Text style={styles.RecentTitle}>{t('orderSearchComponent.recent')}</Text>
                 </View>
                 <View style={styles.headerRight}>
                     <TouchableOpacity onPress={clearRecentSearches}>
-                        <Text style={styles.RecentDelete}>삭제하기</Text>
+                        <Text style={styles.RecentDelete}>{t('orderSearchComponent.remove')}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -167,7 +175,7 @@ const RecentSearch = ({ }) => {
                     contentContainerStyle={{  }}
                     horizontal={false} showsHorizontalScrollIndicator={false}>
                     <View style={styles.searchTermsContainer}>
-                        {recentSearches.map((search, index) => (
+                        {recentSearches.slice(0, 10).map((search, index) => (
                             <TouchableOpacity
                                 key={index}
                                 style={styles.recentSearchButton}

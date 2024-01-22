@@ -1,22 +1,23 @@
 import {StatusBar} from 'expo-status-bar';
 import Constants from 'expo-constants';
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView,StyleSheet, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Login from "./App/Screens/Login";
 import Home from "./App/Screens/Home";
 import {NavigationContainer} from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {createStackNavigator} from "@react-navigation/stack";
 
 import TabNavigation from "./App/Navigations/TabNavigation";
 
 //font
-import { useFonts } from 'expo-font';
+import {useFonts} from 'expo-font';
 import Size from "./App/Utils/Size";
 import {FontSizeProvider} from "./App/Components/Setting/fontProvider";
+
 const Stack = createStackNavigator();
 
 export default function App() {
-    const [fontsLoaded] =  useFonts({
+    const [fontsLoaded] = useFonts({
         'TheJamsil1Thin': require('./assets/fonts/TheJamsil1Thin.ttf'),
         'TheJamsil2Light': require('./assets/fonts/TheJamsil2Light.ttf'),
         'TheJamsil3Regular': require('./assets/fonts/TheJamsil3Regular.ttf'),
@@ -34,7 +35,7 @@ export default function App() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar />
+            <StatusBar/>
             {/*<NavigationContainer>*/}
             {/*    <Stack.Navigator*/}
             {/*        initialRouteName="Login"*/}
@@ -49,24 +50,24 @@ export default function App() {
             <FontSizeProvider>
 
 
-            <NavigationContainer>
-                <Stack.Navigator
+                <NavigationContainer>
+                    <Stack.Navigator
 
-                                 screenOptions={{ headerShown: false }}
-                >
-                    <Stack.Screen name="Login">
-                        {(props) => <Login {...props} />}
-                    </Stack.Screen>
-                    <Stack.Screen
-                        name="TabNavigation"
-                        component={TabNavigation}
-                        options={{
-                            gestureEnabled: false,
-                            gestureDirection: 'vertical',
-                        }}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
+                        screenOptions={{headerShown: false}}
+                    >
+                        <Stack.Screen name="Login">
+                            {(props) => <Login {...props} />}
+                        </Stack.Screen>
+                        <Stack.Screen
+                            name="TabNavigation"
+                            component={TabNavigation}
+                            options={{
+                                gestureEnabled: false,
+                                gestureDirection: 'vertical',
+                            }}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
             </FontSizeProvider>
         </SafeAreaView>
 

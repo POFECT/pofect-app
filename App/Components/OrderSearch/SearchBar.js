@@ -3,10 +3,13 @@ import React, {useEffect, useRef, useState} from 'react'
 import {Ionicons} from "@expo/vector-icons";
 import Colors from "../../Utils/Colors";
 import {useNavigation} from "@react-navigation/native";
+import { useTranslation } from 'react-i18next';
 
 import RecentSearch from "./RecentSearch";
 
 const SearchBar=()=> {
+    const { t } = useTranslation();
+
     const textInputRef = useRef();
     const [searchTerm, setSearchTerm] = useState('');
 

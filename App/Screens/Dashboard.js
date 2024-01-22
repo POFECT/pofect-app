@@ -5,8 +5,8 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import Size from '../Utils/Size';
 import DonutChart from '../Components/DashBoard/DonutChart';
 import GroupedBars from '../Components/DashBoard/GroupedBars';
+import BarChart from "../Components/DashBoard/BarChartDash";
 import MainApi from "../APIs/MainApi";
-import ChartComponent from "../Components/Home/BarChart";
 
 const Stack = createStackNavigator();
 
@@ -43,12 +43,14 @@ const Dashboard = () => {
     //재렌더링
     const MemoizedChartComponent = React.memo(GroupedBars);
     const MemoizedDonutChartComponent = React.memo(DonutChart);
+    const MemoizedBarChartComponent = React.memo(BarChart);
 
     const components = [
         {id: 'donut', component: <MemoizedDonutChartComponent cntList={cntList} />  },
         { id: 'groupedBars', component: <MemoizedChartComponent /> },
+        { id: 'barchart', component: <MemoizedBarChartComponent /> },
     ];
-    console.log("*****",cntList)
+    // console.log("*****",cntList)
 
     const getOrders = () => {
         MainApi.getOrderList(null, "20240130", "H", null, (data) => {
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
         height: 10,
         borderRadius: 5,
         marginHorizontal: 8,
-        backgroundColor: '#3498db',
+        backgroundColor: '#051367',
     },
     inactiveDotStyle: {
         backgroundColor: '#bdc3c7',

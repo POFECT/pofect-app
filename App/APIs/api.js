@@ -2,7 +2,7 @@ import axios from "axios";
 import { Platform  } from 'react-native';
 
 const DEV = Platform.OS === 'android' ?
-            "http://192.168.163.131:8080/api": "http://192.168.0.100:8080/api";
+            "http://192.168.163.131:8080/api": "http://192.168.0.3:8080/api";
 const HOST = "https://52.79.114.216:8080/api/";
 
 function axiosApi() {

@@ -13,7 +13,7 @@ const MainApi = {
         })
         .catch((error) => {
           console.log(error);
-            console.log("****alert")
+            // console.log("****alert")
             errorCallback && errorCallback();
 
         })

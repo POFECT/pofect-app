@@ -7,7 +7,7 @@ const DashBoardApi = {
       .then((response) => {
 
         callback && callback(response.data);
-        console.log("$$$$$",response.data)
+        // console.log("$$$$$",response.data)
 
       })
       .catch((error) => {

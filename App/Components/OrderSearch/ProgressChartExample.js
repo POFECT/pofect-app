@@ -12,6 +12,12 @@ const ProgressChartExample = ({orderData}) => {
         // console.log('Order Data:', orderData); //
 
     }, [orderData]);
+
+    const calculateMaxValue = (data) => {
+        const max = data.reduce((maxValue, item) => Math.max(maxValue, item.value), 0);
+        const bufferPercentage = 0.1;
+        return Math.ceil(max * (1 + bufferPercentage));
+    };
     const barData = [
         {
             value: orderData.orderWidth,
@@ -31,6 +37,8 @@ const ProgressChartExample = ({orderData}) => {
             topColor: 'rgba(255, 182, 193, 0.18)',     // Light Pink
         },
     ];
+    const maxValue1 = calculateMaxValue(barData);
+    const maxValue2 = calculateMaxValue(barData2);
     return (
         <View style={styles.chartContainerOut}>
 
@@ -39,9 +47,9 @@ const ProgressChartExample = ({orderData}) => {
                     horizontal
                     showFractionalValue
                     showYAxisIndices
-                    hideRules
-                    noOfSections={5}
-                    maxValue={3000}
+                    // hideRules
+                    noOfSections={2}
+                    maxValue={maxValue1}
                     data={barData}
                     // width={220}
                     barWidth={40}
@@ -52,16 +60,16 @@ const ProgressChartExample = ({orderData}) => {
                     yAxisLabelSuffix="mm"
                     yAxisTextNumberOfLines={2}
                     isAnimated
-                    hideOrigin
                     xAxisLabelTextStyle={{
                         textAlign: 'center',
                         fontFamily: 'LINESeedKR-Bd',
                         marginTop: -10,
-
                     }}
+
                     yAxisLabelTextStyle={{
-                        textAlign: 'center',
+                        textAlign: 'left',
                         fontFamily: 'LINESeedKR-Bd',
+                        marginleft: -10,
                     }}
                     barStyle={{
                         // marginRight:30,
@@ -71,7 +79,7 @@ const ProgressChartExample = ({orderData}) => {
                         return (
                             <View
                                 style={{
-                                    marginBottom: 10,
+                                    marginBottom: 20,
                                     marginLeft: -5,
                                     backgroundColor: '#e9e9ea',
                                     paddingHorizontal: 6,
@@ -93,16 +101,21 @@ const ProgressChartExample = ({orderData}) => {
                     horizontal
                     showFractionalValue
                     showYAxisIndices
-                    hideRules
+                    // hideRules
+                    yAxisTextNumberOfLines={2}
+
                     noOfSections={5}
-                    // maxValue={700}
+                    maxValue={maxValue2}
                     data={barData2}
                     // width={220}
                     barWidth={40}
                     sideWidth={25}
                     isThreeD
+                    showFractionalValues
                     side="right"
                     isAnimated
+                    yAxisLabelSuffix=" mm"
+
                     xAxisLabelTextStyle={{
                         textAlign: 'center',
                         fontFamily: 'LINESeedKR-Bd',
@@ -155,8 +168,10 @@ const styles = StyleSheet.create({
         width: 350,
         height: 300,
 
-        // paddingVertical: 40,
-        paddingHorizontal: 16,
+        paddingVertical: 40,
+        // paddingHorizontal: 16,
+        paddingTop: 32,
+
         backgroundColor: '#fff',
         borderRadius: 10,
         // marginTop: 5,
@@ -169,7 +184,7 @@ const styles = StyleSheet.create({
 
     },
     chartContainer:{
-        marginBottom: -100,
+        marginBottom: -150,
         marginLeft:0,
 
     },

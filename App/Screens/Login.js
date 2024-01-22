@@ -8,7 +8,6 @@ import GradientText from './GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import LoginVideo from "../Components/Login/LoginVideo";
 import {ALERT_TYPE, AlertNotificationRoot, Dialog} from "react-native-alert-notification";
-import Setting from '../Screens/Setting'
 
 export default function Login({navigation}) {
 
@@ -35,7 +34,16 @@ export default function Login({navigation}) {
             (username === 'pdxx006' && password === '1234')
         ) {
             setTimeout(() => {
-                navigation.navigate('TabNavigation', { username, password });
+
+                navigation.navigate('TabNavigation', { username });
+                // navigation.setParams('TabNavigation', {
+                //     screen: 'Profile',
+                //     params: {
+                //         screen: 'Setting',
+                //         params: { 'username':username },
+                //     },
+                // });
+
             }, 1200);
 
            //setting으로 데이터 전달

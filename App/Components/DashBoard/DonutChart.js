@@ -1,9 +1,19 @@
 import { PieChart } from "react-native-gifted-charts";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
-const legendLabels = ['주문 완료', '가통 설계', '가통 확정', '공장 결정', '제조 투입'];
+
+import { useTranslation } from 'react-i18next';
 
 const DonutChart = ({ cntList }) => {
+    const { t } = useTranslation();
+
+    const legendLabels = [
+        t('orderComplete'),
+        t('designPass'),
+        t('confirmPass'),
+        t('factoryDecision'),
+        t('manufacturingInput')
+    ];
     // 데이터 부분
     const maxIndex = cntList.indexOf(Math.max(...cntList));
 
@@ -57,7 +67,7 @@ const DonutChart = ({ cntList }) => {
 
                                     <View style={{ display: 'flex', alignItems: 'left',   }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'left', marginRight: -5 , marginBottom:-10,  padding:3}}>
-                                            <Text style={{ color: 'white', fontFamily: 'LINESeedKR-Rg' }}>{label} : {cntList[rowIndex * 2 + index]} 건</Text>
+                                            <Text style={{ color: 'white', fontFamily: 'LINESeedKR-Rg' }}>{label} : {cntList[rowIndex * 2 + index]}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', alignItems: 'left' }}>
                                             <Text style={{ color: 'white', fontFamily: 'LINESeedKR-Rg', }}></Text>
@@ -78,7 +88,7 @@ const DonutChart = ({ cntList }) => {
                 paddingVertical: 25,
                 borderRadius: 10,
                 backgroundColor: '#E7F3F8',
-                marginTop : -15
+                marginTop : -10
             }}>
             <View
                 style={{
@@ -90,7 +100,7 @@ const DonutChart = ({ cntList }) => {
                     backgroundColor: '#232B5D',
                 }}>
                 <Text style={{ color: 'white', fontSize: 18, fontFamily: 'LINESeedKR-Bd', }}>
-                    진행 상태 별 주문 수
+                    {t('dashboardComponent.state')}
                 </Text>
                 <View style={{ padding: 20, alignItems: 'center' }}>
 
@@ -111,7 +121,7 @@ const DonutChart = ({ cntList }) => {
                                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Text
                                         style={{ fontSize: 22, color: 'white', fontFamily: 'LINESeedKR-Bd', }}>
-                                        {cntList[maxIndex]} 건
+                                        {cntList[maxIndex]}
                                     </Text>
                                     <Text style={{ fontSize: 14, color: 'white', fontFamily: 'LINESeedKR-Rg', }}>{legendLabels[maxIndex]}</Text>
                                 </View>

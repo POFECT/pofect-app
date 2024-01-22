@@ -3,15 +3,24 @@ import { Text, StyleSheet} from 'react-native';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Home from '../Screens/Home';
-// import OrderSearch from "../Screens/OrderSearch";
 import Setting from '../Screens/Setting';
 import Dashboard from '../Screens/Dashboard'; // 대시보드 컴포넌트 import
 import { FontAwesome5 } from '@expo/vector-icons';
 import RecentSearch from "../Components/OrderSearch/RecentSearch";
 
+//local
+import { useTranslation } from 'react-i18next';
+
+
+
 const Tab = createMaterialBottomTabNavigator();
 
-export default function TabNavigation() {
+
+
+export default function TabNavigation({route}) {
+
+    const { t } = useTranslation();
+
     return (
         <Tab.Navigator
             initialRouteName="Home"
@@ -23,7 +32,7 @@ export default function TabNavigation() {
                 borderRadius:2,
 
             }}
-            activeColor="#09537F"
+            activeColor="#051367"
             inactiveColor="#757575"
 
             // labeled={false}
@@ -36,7 +45,7 @@ export default function TabNavigation() {
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="home" size={20} color={color} />
                     ),
-                    tabBarLabel: <Text style={styles.tabBarLabel}>홈</Text>
+                    tabBarLabel: <Text style={styles.tabBarLabel}>{t('home')}</Text>
                     ,
                 headerLeft: (props) => null,
 
@@ -62,22 +71,22 @@ export default function TabNavigation() {
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="search" size={20} color={color} />
                     ),
-                    tabBarLabel: <Text style={styles.tabBarLabel}>주문 검색</Text>
+                    tabBarLabel: <Text style={styles.tabBarLabel}>{t('orderSearch')}</Text>
 
                 }}
             />
 
             <Tab.Screen
-                name="Profile"
-                component={Setting}
+                name="Setting"
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user-cog" size={20} color={color} />
                     ),
-                    tabBarLabel: <Text style={styles.tabBarLabel}>설정</Text>
-
+                    tabBarLabel: <Text style={styles.tabBarLabel}>{t('setting')}</Text>
                 }}
-            />
+            >
+                {() => <Setting username={route.params?.username} />}
+            </Tab.Screen>
         </Tab.Navigator>
 
     );

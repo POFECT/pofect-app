@@ -1,22 +1,28 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useFontSize } from "../../Components/Setting/fontProvider";
+//global
 import { useTranslation } from 'react-i18next';
+import i18n from '../../../locales/i18n';
 
-const UserSetting = () => {
-    const { t } = useTranslation();
 
-    const { fontSize, increaseFontSize, decreaseFontSize } = useFontSize();
+const GlobalSetting = () => {
+
+
+    const changeLanguage = (language) => {
+        i18n.changeLanguage(language);
+    };
+    const {t,i18n} = useTranslation();
 
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Text style={{ fontSize, ...styles.title }}>{t('settingComponent.sample')}</Text>
-                <TouchableOpacity style={styles.button} onPress={increaseFontSize}>
-                    <Text style={styles.buttonText}>UP</Text>
+                <Text style={styles.maintitle}>{t('selectLanguage')}</Text>
+                <Text style={styles.title}>{t('greeting')}</Text>
+                <TouchableOpacity style={styles.button}  onPress={() => changeLanguage('en')} >
+                    <Text style={styles.buttonText}>Switch to English</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={decreaseFontSize}>
-                    <Text style={styles.buttonText}>DOWN</Text>
+                <TouchableOpacity style={styles.button}  onPress={() => changeLanguage('ko')}>
+                    <Text style={styles.buttonText}>한국어로 전환</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -41,6 +47,13 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 5,
     },
+    maintitle: {
+        fontFamily: 'LINESeedKR-Bd',
+        marginBottom:  30,
+        fontSize:16,
+        textAlign: 'center',
+        color: '#333',
+    },
     title: {
         fontFamily: 'LINESeedKR-Bd',
         marginBottom: 30,
@@ -62,4 +75,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UserSetting;
+export default GlobalSetting;

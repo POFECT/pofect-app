@@ -3,8 +3,11 @@ import { View, Text, ScrollView, StyleSheet, Platform } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import MainApi from '../../APIs/MainApi';
 import { useFontSize } from "../Setting/fontProvider";
+import { useTranslation } from 'react-i18next';
 
 export default function OrderInfoComponent({ searchTerm, orderData }) {
+    const { t } = useTranslation();
+
     const [tableHead, setTableHead] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [widthArr, setWidthArr] = useState([160, 180]);
@@ -14,8 +17,17 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
     useEffect(() => {
         console.log('searchTerm', searchTerm);
         if (orderData) {
-            const displayNames = ['생성일', '주문투입출강주코드', '고객사명', 'OrderType', 'OrderLine주문량',
-                '공장결정구분', '가능통과공정코드', '확정통과공정코드'];
+
+            const displayNames = [
+                t('creationDate'),
+                t('orderInputSteelBarCode'),
+                t('clientName'),
+                t('orderType'),
+                t('orderQuantity'),
+                t('factoryDecisionCategory'),
+                t('possibleProcessCode'),
+                t('confirmedProcessCode')
+            ];
 
             // Map display names to actual keys
             const fieldsToShow = ['creationDate', 'ordThwTapWekCd', 'customerName', 'orderType', 'orderLineQty',
@@ -44,10 +56,10 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
 
                         <Table borderStyle={{ borderWidth: 1, borderColor: '#e4e6ee' }}>
                             <Row
-                                data={['설명', '정보']}
+                                data={[`${t('orderSearchComponent.des')}`, `${t('orderSearchComponent.info')}`]}
                                 widthArr={widthArr}
-                                style={styles.row}
-                                textStyle={styles.text}
+                                style={styles.rowH}
+                                textStyle={[styles.textHeader, { fontSize: localFontSize }]}  // Use localFontSize
                             />
                             <Rows
                                 data={tableData}
@@ -89,12 +101,18 @@ const styles = StyleSheet.create({
         fontFamily: 'TheJamsil3Regular',
         fontSize: 12,
         margin: 3,
-        color: '#09537F'
+        color: '#051367',
     },
     row: {
         height: 40,
 
         backgroundColor: '#fff',
+        fontFamily: 'TheJamsil3Regular',
+        fontSize: 12,
+    },rowH: {
+        height: 40,
+
+        backgroundColor: 'rgba(5,19,103,0.03)',
         fontFamily: 'TheJamsil3Regular',
         fontSize: 12,
     },

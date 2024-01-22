@@ -3,16 +3,17 @@ import { StyleSheet, View, Text, FlatList } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import ProgressChartExample from "./ProgressChartExample";
 import MainApi from "../../APIs/MainApi";
+import {useTranslation} from "react-i18next";
 
 const stepIndicatorStyles = {
     stepIndicatorSize: 30,
     currentStepIndicatorSize: 50,
     separatorStrokeWidth: 5,
     currentStepStrokeWidth: 6.5,
-    stepStrokeCurrentColor: '#005584',
-    separatorFinishedColor: '#005584',
+    stepStrokeCurrentColor: '#051367',
+    separatorFinishedColor: '#051367',
     separatorUnFinishedColor: '#aaaaaa',
-    stepIndicatorFinishedColor: '#005584',
+    stepIndicatorFinishedColor: '#051367',
     stepIndicatorUnFinishedColor: '#aaaaaa',
     stepIndicatorCurrentColor: '#ffffff',
     stepIndicatorLabelFontSize: 15,
@@ -22,11 +23,12 @@ const stepIndicatorStyles = {
     stepIndicatorLabelUnFinishedColor: 'rgba(255,255,255,0.5)',
     labelColor: '#666666',
     labelSize: 14,
-    currentStepLabelColor: '#005584',
+    currentStepLabelColor: '#051367',
     labelFontFamily:"TheJamsil5Bold",
 
 };
 const VerticalStepIndicator = ({ searchTerm,orderData}) => {
+    const { t ,i18n} = useTranslation();
 
     // const [orderData, setOrderData] = useState(null);
     const [currentPage, setCurrentPage] = useState(3);
@@ -34,7 +36,7 @@ const VerticalStepIndicator = ({ searchTerm,orderData}) => {
 
 
     useEffect(() => {
-        console.log('orderData', orderData);
+        // console.log('orderData', orderData);
         if (orderData) {
             const faConfirmFlag = orderData.faConfirmFlag;
             console.log(faConfirmFlag);
@@ -58,29 +60,29 @@ const VerticalStepIndicator = ({ searchTerm,orderData}) => {
 
     const dummyData = [
         {
-            title: '주문 완료',
+            title: t('orderComplete'),
             body: 'creationDate',
         },
         {
-            title: '가능통과공장 설계',
+            title: t('designPossiblePassPlant'),
             body: 'posbPassFacCdN',
         },
         {
-            title: '가능통과공장 확정',
+            title: t('confirmPossiblePassPlant'),
         },
         {
-            title: '공장 결정',
+            title: t('factoryDecision'),
             body: 'cfirmPassOpCd',
         },
         {
-            title: '제조 투입',
+            title: t('manufacturingInput'),
         },
     ];
-
     const renderPage = ({ item, index }) => {
         const isCurrentPage = index === currentPage;
-        const fontSize = isCurrentPage ? 14 : 12;
-        const textColor = isCurrentPage ? '#005584' : '#333333';
+        const isEnglish = i18n.language === 'en';
+        const fontSize = isCurrentPage ?(isEnglish ? 12 : 14) : 12;
+        const textColor = isCurrentPage ? '#051367' : '#333333';
         const bodyText = item.body && orderData && orderData[item.body] !== null ? orderData[item.body] : '';
 
         return (
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     rowItem: {
-        flex: 3,
+        flex: 1,
         marginTop:10,
         // paddingVertical: 5,
     },

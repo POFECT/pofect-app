@@ -1,8 +1,12 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
+import { useTranslation } from 'react-i18next';
 
 const MyLineChart = ({ ordList }) => {
+
+    const { t } = useTranslation();
+
     const data = ordList.map(({ ordCnt, ordThwTapYMDCd }) => ({
         value: ordCnt,
         labelComponent: () => customLabel(ordThwTapYMDCd.substring(2)),
@@ -16,41 +20,81 @@ const MyLineChart = ({ ordList }) => {
 
     return (
         <>
-            <Text style={styles.header}>출강주차 별 주문 통계</Text>
+            <Text style={styles.header}>{t('homeComponent.weekByOrderCnt')}</Text>
             <View style={styles.chartContainerOut}>
 
             <View style={styles.chartContainer}>
                 <LineChart
                     areaChart
                     curved
+                    hideRules
+
+                    yAxisColor="#051367"
+                    xAxisColor="#051367"
+
                     width={240}
                     height={200}
                     data={data}
                     maxValue={200}
-
+                    yAxisTextStyle={{
+                        fontFamily: 'LINESeedKR-Bd',
+                        marginLeft:-5,
+                    }}
                     startFillColor="#232B5D"
                     startOpacity={0.8}
                     endFillColor="rgb(203, 241, 250)"
                     endOpacity={0.3}
                     isAnimated
-                    animationDuration={1200}
 
+                    // pointerStripUptoDataPoint
+                    animationDuration={1200}
                     rotateLabel
                     yMax={200}
-                    dataPointLabelComponent={(item, index) => {
-                        return (
-                            <View
-                                style={{
-                                    marginBottom: 10,
-                                    marginLeft: -3,
-                                    backgroundColor: '#e9e9ea',
-                                    paddingHorizontal: 6,
-                                    paddingVertical: 4,
-                                    borderRadius: 4,
-                                }}>
-                                <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
-                            </View>
-                        );
+
+                    pointerConfig={{
+                        pointerStripHeight: 160,
+                        pointerStripColor: 'lightgray',
+                        pointerStripWidth: 2,
+                        pointerColor: 'lightgray',
+                        radius: 6,
+                        // pointerLabelWidth: 100,
+                        // pointerLabelHeight: 90,
+                        // activatePointersOnLongPress: true,
+                        autoAdjustPointerLabelPosition: false,
+                        pointerLabelComponent: items => {
+                            return (
+                                <View
+                                    style={{
+                                        height: 90,
+                                        width: 100,
+                                        justifyContent: 'center',
+                                        marginTop: -30,
+                                        marginLeft: -40,
+                                    }}>
+                                    <Text
+                                        style={{
+                                            color: 'white',
+                                            fontSize: 14,
+                                            marginBottom: 6,
+                                            textAlign: 'center',
+                                        }}>
+                                        {items[0].date}
+                                    </Text>
+
+                                    <View
+                                        style={{
+                                            paddingHorizontal: 14,
+                                            paddingVertical: 6,
+                                            borderRadius: 16,
+                                            backgroundColor: 'white',
+                                        }}>
+                                        <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
+                                            {items[0].value + '건'}
+                                        </Text>
+                                    </View>
+                                </View>
+                            );
+                        },
                     }}
                 />
             </View>
@@ -67,7 +111,7 @@ const styles = StyleSheet.create({
         padding: 16,
         marginTop: -40,
 
-        color: '#09537F',
+        color: '#051367',
     },
 
     chartContainerOut: {
@@ -87,7 +131,7 @@ const styles = StyleSheet.create({
     },
     chartContainer:{
         marginBottom: 15,
-        marginLeft:4,
+        marginLeft:15,
 
     },
     labelContainer: {

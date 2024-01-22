@@ -12,8 +12,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useFocusEffect} from '@react-navigation/native';
 import MainApi from '../../APIs/MainApi';
+import { useTranslation } from 'react-i18next';
 
 export default function HomeVideo() {
+    const { t, i18n } = useTranslation();
+    const isEnglish = i18n.language === 'en';
 
     const videoRef = useRef(null);
     const [cntList, setCntList] = useState([0, 0, 0, 0, 0,0]);
@@ -83,6 +86,37 @@ export default function HomeVideo() {
                 { translateY: translateY.value +140}],
         };
     });
+
+    const textStyles = isEnglish
+        ? {
+            fontSize: Size.width * 0.14,
+            // Add other English styles as needed
+        }
+        : {
+            fontSize: Size.width * 0.14,
+            // Add other Korean styles as needed
+        };
+
+    const semiTextStyles = isEnglish
+        ? {
+            fontSize: Size.width * 0.04,
+            // Add other English styles as needed
+        }
+        : {
+            fontSize: Size.width * 0.05,
+            // Add other Korean styles as needed
+        };
+
+    const secondTextStyles = isEnglish
+        ? {
+            fontSize: Size.width * 0.04,
+            // Add other English styles as needed
+        }
+        : {
+            fontSize: Size.width * 0.05,
+            // Add other Korean styles as needed
+        };
+
     return (
         <View style={styles.videoContainer}>
             <Video
@@ -96,10 +130,10 @@ export default function HomeVideo() {
                 isMuted={true}
                 rate={0.7}
             />
-            <Animated.Text style={[styles.text, animatedStyle]}>20240130 </Animated.Text>
-            <Text style={styles.semiText}>출강주</Text>
-            <Animated.Text style={[styles.secondText, animatedStyle2]}>
-                {`가통 정상 설계 : ${cntList[1]}건\n에러 주문 : ${cntList[2]}건\n공장 결정 대상 : ${cntList[4]}건`}
+            <Animated.Text style={[styles.text, animatedStyle, textStyles]}>20240130 </Animated.Text>
+            <Text style={[styles.semiText, semiTextStyles]}>{t('homeComponent.week')}</Text>
+            <Animated.Text style={[styles.secondText, animatedStyle2, secondTextStyles]}>
+                {`${t('homeComponent.possible')} : ${cntList[1]} \n${t('homeComponent.error')} : ${cntList[2]} \n${t('homeComponent.confirm')} : ${cntList[4]} `}
             </Animated.Text>
         </View>
     )
