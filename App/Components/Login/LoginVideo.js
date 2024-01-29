@@ -43,6 +43,7 @@ export default function LoginVideo() {
 const styles = StyleSheet.create({
 
     videoContainer: {
+
         objectFit: 'contain',
         overflow: 'hidden',
         // borderRadius: Size.width *1,

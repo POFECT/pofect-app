@@ -30,7 +30,9 @@
     "orderByItemType": "Status Of Orders By Type",
     "orderCnt": "orders",
     "FactoryLoad": "Factory Load Forecast Status",
-    "unit": "Num"
+    "unit": "Num",
+    "percent": "Load Factor"
+
 
   },
   "orderSearchComponent": {

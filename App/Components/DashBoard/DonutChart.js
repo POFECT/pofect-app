@@ -18,7 +18,7 @@ const DonutChart = ({ cntList }) => {
     const maxIndex = cntList.indexOf(Math.max(...cntList));
 
     const pieData = [
-        { value: cntList[0], color: '#009FFF', gradientCenterColor: '#006DFF',},
+        { value: cntList[0], color: '#009FFF', gradientCenterColor: '#a3b7d3',},
         { value: cntList[1], color: '#93FCF8', gradientCenterColor: '#3BE9DE' ,},
         { value: cntList[2], color: '#BDB2FA', gradientCenterColor: '#8F80F3', },
         { value: cntList[3], color: '#FFA5BA', gradientCenterColor: '#FF7F97' },
@@ -111,7 +111,7 @@ const DonutChart = ({ cntList }) => {
 
                         showGradient
                         sectionAutoFocus
-                        focusOnPress
+                        // focusOnPress
                         radius={90}
                         innerRadius={60}
                         innerCircleColor={'#232B5D'}

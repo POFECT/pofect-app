@@ -5,7 +5,7 @@ import MainApi from '../../APIs/MainApi';
 import { useFontSize } from "../Setting/fontProvider";
 import { useTranslation } from 'react-i18next';
 
-export default function OrderInfoComponent({ searchTerm, orderData }) {
+const OrderInfoComponent= ({ searchTerm, orderData }) =>{
     const { t } = useTranslation();
 
     const [tableHead, setTableHead] = useState([]);
@@ -14,6 +14,56 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
     const {fontSize} = useFontSize();
     const [localFontSize, setLocalFontSize] = useState(fontSize);
 
+    const styles = StyleSheet.create({
+        container: { flex: 1, padding: 2, paddingTop: 20, backgroundColor: '#fff', },
+        shadowContainer: {
+            borderRadius: 16,
+            ...Platform.select({
+                ios: {
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.23,
+                    shadowRadius: 2.62,
+                },
+                android: {
+                    elevation: 4,
+                },
+            })
+        },
+        text: {
+            textAlign: 'center',
+            fontFamily: 'TheJamsil3Regular',
+            fontSize: 12,
+            margin: 3,
+            color: '#051367',
+            flexWrap: 'wrap', // 텍스트가 넘칠 경우 줄바꿈
+
+        },
+        row: {
+            height: fontSize > 12 * 1.25 ? 'auto' : 40,
+
+            backgroundColor: '#fff',
+            fontFamily: 'TheJamsil3Regular',
+            fontSize: 12,
+        },rowH: {
+            height: 40,
+
+            backgroundColor: 'rgba(5,19,103,0.03)',
+            fontFamily: 'TheJamsil3Regular',
+            fontSize: 12,
+
+        },
+        textHeader: {
+            textAlign: 'center',
+            fontFamily: 'TheJamsil3Regular',
+            fontSize: 12,
+            margin: 3,
+            flexWrap: 'wrap', // 텍스트가 넘칠 경우 줄바꿈
+        },
+    });
     useEffect(() => {
         console.log('searchTerm', searchTerm);
         if (orderData) {
@@ -77,49 +127,4 @@ export default function OrderInfoComponent({ searchTerm, orderData }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, padding: 2, paddingTop: 20, backgroundColor: '#fff', },
-    shadowContainer: {
-        borderRadius: 16,
-        ...Platform.select({
-            ios: {
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 2,
-                },
-                shadowOpacity: 0.23,
-                shadowRadius: 2.62,
-            },
-            android: {
-                elevation: 4,
-            },
-        })
-    },
-    text: {
-        textAlign: 'center',
-        fontFamily: 'TheJamsil3Regular',
-        fontSize: 12,
-        margin: 3,
-        color: '#051367',
-    },
-    row: {
-        height: 40,
-
-        backgroundColor: '#fff',
-        fontFamily: 'TheJamsil3Regular',
-        fontSize: 12,
-    },rowH: {
-        height: 40,
-
-        backgroundColor: 'rgba(5,19,103,0.03)',
-        fontFamily: 'TheJamsil3Regular',
-        fontSize: 12,
-    },
-    textHeader: {
-        textAlign: 'center',
-        fontFamily: 'TheJamsil3Regular',
-        fontSize: 12,
-        margin: 3,
-    },
-});
+export default OrderInfoComponent;

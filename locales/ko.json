@@ -31,7 +31,8 @@
     "orderByItemType": "품종별 주문수 현황",
     "orderCnt": "주문수",
     "FactoryLoad": "공장 부하 예상 현황",
-    "unit": "건"
+    "unit": "건",
+    "percent": "부하율"
 
   },
   "orderSearchComponent": {
@@ -40,7 +41,7 @@
     "recent": "최근 검색어",
     "remove": "삭제하기",
     "basic": "기본 정보",
-    "w": "두꼐/폭",
+    "w": "두께/폭",
     "pohang": "포항",
     "osStatus": "OS 진도",
     "orderData": "주문 정보",

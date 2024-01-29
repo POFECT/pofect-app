@@ -10,14 +10,17 @@ const InputStatusBar = () => {
     const [barData, setBarData] = useState([]);
 
     useEffect(() => {
-        DashBoardApi.getDashBoardInputStatus('20240130',(responseData) => {
-            const newBarData = responseData.response.map((item) => ({
+        DashBoardApi.getDashBoardInputStatus('20240131', (responseData) => {
+            const colors = ['#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF',
+                '#b3b7ff', '#d1baff','#ffc0eb',
+            ]; // 파스텔 톤 색상 배열
+            const newBarData = responseData.response.map((item, index) => ({
                 value: item.count,
                 label: item.ordPdtItpCdN,
                 spacing: 2,
                 labelWidth: 20,
-                labelTextStyle: { color: 'gray' },
-                frontColor: '#5D8BF4',
+                labelTextStyle: { color: 'white' },
+                frontColor: colors[index % colors.length], // 색상을 순환적으로 적용
             }));
             setBarData(newBarData);
         });
@@ -52,7 +55,7 @@ const InputStatusBar = () => {
                                 height: 12,
                                 width: 12,
                                 borderRadius: 12,
-                                backgroundColor: '#5D8BF4',
+                                backgroundColor: '#FFB3BA',
                                 marginRight: 8,
                             }}
                         />
@@ -60,7 +63,7 @@ const InputStatusBar = () => {
                             style={{
                                 width: 45,
                                 height: 16,
-                                color: 'lightgray',
+                                color: 'white',
                             }}>
                             {t('dashboardComponent.orderCnt')}
                         </Text>
@@ -100,27 +103,33 @@ const InputStatusBar = () => {
                     yAxisTextStyle={{
                         fontFamily: 'LINESeedKR-Bd',
                         marginLeft:-10,
-                        color: 'gray'
+                        color: 'white'
                     }}
                     xAxisThickness={0}
                     yAxisThickness={0}
                     noOfSections={3}
-                    maxValue={45}
+                    maxValue={90}
 
 
                     isAnimated
                     animationDuration={1200}
 
                     renderTooltip={(item, index) => {
+
+                        const isLastItem = index === barData.length - 1;
+
                         return (
                             <View
                                 style={{
+                                    width:31,
                                     marginBottom: 10,
-                                    marginLeft: -3,
+                                    marginLeft: isLastItem ? -9 : -3, // 마지막 아이템의 경우 marginLeft 조정
                                     backgroundColor: '#e9e9ea',
                                     paddingHorizontal: 6,
                                     paddingVertical: 4,
                                     borderRadius: 4,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
                                 }}>
                                 <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
                             </View>

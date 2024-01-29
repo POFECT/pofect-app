@@ -7,7 +7,7 @@ const FontSizeContext = createContext();
 export const FontSizeProvider = ({ children }) => {
     const [fontSize, setFontSize] = useState(12.5); // Default font size
     const MIN_FONT_SIZE = 10;
-    const MAX_FONT_SIZE = 18;
+    const MAX_FONT_SIZE = 24;
 
     const increaseFontSize = () => {
         setFontSize((prevSize) => {

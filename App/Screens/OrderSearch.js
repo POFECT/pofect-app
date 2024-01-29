@@ -220,6 +220,7 @@ const OrderSearch = ({route}) => {
                         data={data}
                         renderItem={({item}) => (
                             <BasicInfoComponent
+                                // style={{marginLeft:39}}
                                 iconName={item.iconName}
                                 title={item.title}
                                 description={item.description}
@@ -329,6 +330,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 20,
         marginBottom: 25,
+        marginLeft:20,
         marginHorizontal: 18,
 
         ...Platform.select({

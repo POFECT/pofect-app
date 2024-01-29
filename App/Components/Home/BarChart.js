@@ -35,7 +35,7 @@ const MyLineChart = ({ ordList }) => {
                     width={240}
                     height={200}
                     data={data}
-                    maxValue={200}
+                    maxValue={400}
                     yAxisTextStyle={{
                         fontFamily: 'LINESeedKR-Bd',
                         marginLeft:-5,
@@ -59,37 +59,37 @@ const MyLineChart = ({ ordList }) => {
                         radius: 6,
                         // pointerLabelWidth: 100,
                         // pointerLabelHeight: 90,
-                        // activatePointersOnLongPress: true,
-                        autoAdjustPointerLabelPosition: false,
+                        autoAdjustPointerLabelPosition: true, // 자동 위치 조정 활성화
                         pointerLabelComponent: items => {
                             return (
                                 <View
                                     style={{
                                         height: 90,
-                                        width: 100,
+                                        width: 50,
                                         justifyContent: 'center',
                                         marginTop: -30,
-                                        marginLeft: -40,
+                                        marginLeft: -20,
                                     }}>
-                                    <Text
-                                        style={{
-                                            color: 'white',
-                                            fontSize: 14,
-                                            marginBottom: 6,
-                                            textAlign: 'center',
-                                        }}>
-                                        {items[0].date}
-                                    </Text>
+                                    {/*<Text*/}
+                                    {/*    style={{*/}
+                                    {/*        color: 'white',*/}
+                                    {/*        fontSize: 14,*/}
+                                    {/*        marginBottom: 6,*/}
+                                    {/*        textAlign: 'center',*/}
+                                    {/*    }}>*/}
+                                    {/*    {items[0].date}*/}
+                                    {/*</Text>*/}
 
                                     <View
                                         style={{
-                                            paddingHorizontal: 14,
-                                            paddingVertical: 6,
+                                            // paddingHorizontal: 30,
+                                            // paddingVertical: 6,
                                             borderRadius: 16,
                                             backgroundColor: 'white',
                                         }}>
-                                        <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
-                                            {items[0].value + '건'}
+                                        <Text style={{fontWeight: 'bold', textAlign: 'center' ,
+                                       }}>
+                                            {items[0].value}
                                         </Text>
                                     </View>
                                 </View>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     },
     chartContainer:{
         marginBottom: 15,
-        marginLeft:15,
+        marginLeft:20,
 
     },
     labelContainer: {

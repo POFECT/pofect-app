@@ -5,22 +5,24 @@ import CapacityApi from '../../APIs/CapacityApi';
 import { useTranslation } from 'react-i18next';
 
 const InputStatusBar = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
 
     const [barData, setBarData] = useState([]);
 
 
     useEffect(() => {
-        CapacityApi.getCapacityListByWeek('20240130', (responseData) => {
+        CapacityApi.getCapacityListByWeek('20240131', (responseData) => {
             const newBarData = responseData.response.map((item) => {
                 const label = `${item.firmPsFacTp}${mapLabels(item.processName)}`;
+                const calculatedValue = (item.remainQty / item.planQty) * 100;
+                const valueRounded = parseFloat(calculatedValue.toFixed(2)); // 소수점 둘째 자리까지 반올림 후 숫자로 변환
                 return {
-                    value: (item.remainQty / item.planQty) * 100,
+                    value: valueRounded,
                     label: label,
                     spacing: 2,
                     labelWidth: 40,
-                    labelTextStyle: { color: 'gray' },
+                    labelTextStyle: { color: 'white' },
                     frontColor: '#fbccff',
                 };
             });
@@ -38,14 +40,43 @@ const InputStatusBar = () => {
     ];
 
     const mapLabels = (processName) => {
-        switch (processName.toLowerCase()) {
-            case '1차소둔':
-                return 'CAL';
-            case '2차소둔':
-                return 'ACL';
-            // Add more cases as needed for other process names
-            default:
-                return processName; // Use the original processName if no mapping is defined
+        if (i18n.language === 'en') {
+            switch (processName.toLowerCase()) {
+                case '제강':
+                    return 'SM';
+                case '열연':
+                    return 'HR';
+                case '열연정정':
+                    return 'HRL';
+                case '1차소둔':
+                    return 'CAL';
+                case '2차소둔':
+                    return 'ACL';
+                case '냉간압연':
+                    return 'PCM';
+                case '도금':
+                    return 'EGL';
+                case '정정':
+                    return 'RCL';
+                default:
+                    return processName; // 일치하는 레이블이 없는 경우 기본 이름 반환
+            }
+        } else {
+            switch (processName.toLowerCase()) {
+                case '1차소둔':
+                    return 'CAL';
+                case '2차소둔':
+                    return 'ACL';
+                case '냉간압연':
+                    return 'PCM';
+                case '도금':
+                    return 'EGL';
+                case '정정':
+                    return 'RCL';
+                // 여기에 기본 레이블 추가...
+                default:
+                    return processName; // 일치하는 레이블이 없는 경우 기본 이름 반환
+            }
         }
     };
 
@@ -84,11 +115,11 @@ const InputStatusBar = () => {
                         />
                         <Text
                             style={{
-                                width: 45,
+                                width: i18n.language === 'en' ? 77 : 45, // 영어일 때 너비를 60으로, 아니면 45로 설정
                                 height: 16,
-                                color: 'lightgray',
+                                color: 'white',
                             }}>
-                            {t('dashboardComponent.orderCnt')}
+                            {t('dashboardComponent.percent')}
                         </Text>
                     </View>
                     {/* You can add more legend points as needed */}
@@ -125,7 +156,7 @@ const InputStatusBar = () => {
                         xAxisTextNumberOfLines={2}
                         xAxisThickness={0}
                         yAxisThickness={0}
-                        yAxisTextStyle={{ color: 'gray' }}
+                        yAxisTextStyle={{ color: 'white' }}
                         noOfSections={5}
                         maxValue={100}
                         isAnimated
@@ -137,14 +168,18 @@ const InputStatusBar = () => {
                             return (
                                 <View
                                     style={{
-                                        marginBottom: 2,
-                                        marginLeft: 8,
+                                        width: 53,
+                                        marginBottom: 4,
+
                                         backgroundColor: '#e9e9ea',
                                         paddingHorizontal: 6,
                                         paddingVertical: 4,
                                         borderRadius: 4,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+
                                     }}>
-                                    <Text style={{fontFamily:'LINESeedKR-Bd'}}>{item.value}</Text>
+                                    <Text style={{ fontFamily: 'LINESeedKR-Bd' }}>{item.value}</Text>
                                 </View>
                             );
                         }}

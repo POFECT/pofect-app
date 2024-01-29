@@ -35,7 +35,7 @@ export default function HomeVideo() {
     }, []);
 
     const getOrders = () => {
-        MainApi.getOrderList(null, "20240130", "H", null, (data) => {
+        MainApi.getOrderList(null, "20240131", null, null, (data) => {
             const list = data.response;
             const countByFlag = {};
             const possibleFlags = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -130,7 +130,7 @@ export default function HomeVideo() {
                 isMuted={true}
                 rate={0.7}
             />
-            <Animated.Text style={[styles.text, animatedStyle, textStyles]}>20240130 </Animated.Text>
+            <Animated.Text style={[styles.text, animatedStyle, textStyles]}>20240131 </Animated.Text>
             <Text style={[styles.semiText, semiTextStyles]}>{t('homeComponent.week')}</Text>
             <Animated.Text style={[styles.secondText, animatedStyle2, secondTextStyles]}>
                 {`${t('homeComponent.possible')} : ${cntList[1]} \n${t('homeComponent.error')} : ${cntList[2]} \n${t('homeComponent.confirm')} : ${cntList[4]} `}

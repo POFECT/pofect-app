@@ -53,7 +53,7 @@ const Dashboard = () => {
     // console.log("*****",cntList)
 
     const getOrders = () => {
-        MainApi.getOrderList(null, "20240130", "H", null, (data) => {
+        MainApi.getOrderList(null, "20240131", null, null, (data) => {
             const list = data.response;
 
             const countByFlag = {};
@@ -89,10 +89,13 @@ const Dashboard = () => {
         <View style={styles.container}>
             <Carousel
                 data={components}
+                init
                 renderItem={renderItem}
                 sliderWidth={Size.width}
                 itemWidth={360}
                 onSnapToItem={(index) => setActiveIndex(index)}
+                firstItem={0}
+
             />
             <Pagination
                 dotsLength={components.length}

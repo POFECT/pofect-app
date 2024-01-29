@@ -61,11 +61,13 @@ const RecentSearch = ({ }) => {
     const [recentSearches, setRecentSearches] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const textInputRef = useRef();
+    const [isEditMode, setIsEditMode] = useState(false); // 편집 모드 여부를 관리하는 새로운 state
 
     //검색 이동
     const navigation = useNavigation();
 
     const navigateToOrderSearch = (searchTerm) => {
+        setIsEditMode(false);
         console.log('Navigating to order search with searchTerm:', searchTerm);
         navigation.navigate('OrderSearch', { searchTerm });
         // setSearchTerm('');
@@ -130,9 +132,27 @@ const RecentSearch = ({ }) => {
         }
     };
 
+    const toggleEditMode = () => {
+        setIsEditMode(!isEditMode); // 편집 모드를 토글
+    };
+
+    const deleteRecentSearch = async (searchToDelete) => {
+        try {
+            const searches = await AsyncStorage.getItem('recentSearches');
+            if (searches) {
+                const existingSearches = JSON.parse(searches);
+                const updatedSearches = existingSearches.filter(search => search !== searchToDelete);
+                setRecentSearches(updatedSearches);
+                await AsyncStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+            }
+        } catch (error) {
+            console.error('Error deleting recent search:', error);
+        }
+    };
     return (
         <View style={styles.container}>
             <View style={styles.searchContainer}>
+
                 <TextInput
                     ref={textInputRef}
                     style={styles.searchInput}
@@ -163,8 +183,10 @@ const RecentSearch = ({ }) => {
                     <Text style={styles.RecentTitle}>{t('orderSearchComponent.recent')}</Text>
                 </View>
                 <View style={styles.headerRight}>
-                    <TouchableOpacity onPress={clearRecentSearches}>
-                        <Text style={styles.RecentDelete}>{t('orderSearchComponent.remove')}</Text>
+                    <TouchableOpacity onPress={toggleEditMode}>
+                        <Text style={styles.RecentDelete}>
+                            {t('orderSearchComponent.remove')}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -172,22 +194,30 @@ const RecentSearch = ({ }) => {
             {recentSearches.length > 0 ? (
                 <ScrollView
                     keyboardShouldPersistTaps="handled"
-                    contentContainerStyle={{  }}
+                    contentContainerStyle={styles.searchTermsContainer}
                     horizontal={false} showsHorizontalScrollIndicator={false}>
-                    <View style={styles.searchTermsContainer}>
-                        {recentSearches.slice(0, 10).map((search, index) => (
+
+                    {recentSearches.slice(0, 10).map((search, index) => (
+                        <View key={index} style={styles.recentSearchRow}>
                             <TouchableOpacity
-                                key={index}
                                 style={styles.recentSearchButton}
                                 onPress={() => {
-                                    console.log('Search term pressed:', search);
-                                    navigateToOrderSearch(search);
-                                }}
-                            >
+                                    if (!isEditMode) { // isEditMode가 false일 때만 동작
+                                        navigateToOrderSearch(search);
+                                    }
+                                }}>
                                 <Text style={styles.recentSearchText}>{search}</Text>
                             </TouchableOpacity>
-                        ))}
-                    </View>
+                            {isEditMode && (
+                                <TouchableOpacity
+                                    style={styles.deleteIcon}
+                                    onPress={() => deleteRecentSearch(search)}>
+                                    <Ionicons name="close-circle" size={20} color="red" />
+                                </TouchableOpacity>
+                            )}
+
+                        </View>
+                    ))}
                 </ScrollView>
             ) : (
                 <View style={styles.searchTermsContainer}>
@@ -247,6 +277,8 @@ const styles = StyleSheet.create({
     headerLeft: {},
     headerRight: {},
     RecentTitle: {
+        // flexDirection: 'row',
+
         color: '#444444',
         fontFamily: 'LINESeedKR-Bd',
         fontSize: 16,
@@ -254,6 +286,8 @@ const styles = StyleSheet.create({
             { translateX: Size.width * 0.04 },
             { translateY: Size.height * 0.016 },
         ],
+        marginBottom: 10,
+
     },
 
     RecentDelete: {
@@ -265,13 +299,14 @@ const styles = StyleSheet.create({
             { translateY: Size.height * 0.016 },
         ],
     },
-
     searchTermsContainer: {
         flexDirection: 'row',
-        marginVertical: 40,
-        marginLeft: 20,
-        flexWrap: 'wrap',
+        flexWrap: 'wrap', // 여기에 flexWrap 추가
+        marginHorizontal: 20,
+        paddingVertical:10,
+
     },
+
     recentSearchButton: {
         backgroundColor: '#D3E2FD',
         paddingVertical: 10,
@@ -280,10 +315,25 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginBottom: 20,
     },
+    recentSearchRow: {
+        flexDirection: 'column', // 방향을 column으로 변경
+        alignItems: 'flex-start',
+        marginBottom: 10,
+        marginRight:5,
+        // paddingVertical:10,
+    },
     recentSearchText: {
         fontFamily: 'LINESeedKR-Bd',
-        justifyContent: 'center',
 
-    }
+    },
+
+    deleteIcon: {
+        position: 'absolute', // 절대 위치 설정
+        right: 0, // 오른쪽 끝으로 이동
+        // top: '50%', // 상단에서 50%의 위치에 배치
+        transform: [{ translateY: -10 }], // 아이콘을 수직으로 중앙에 위치시킴
+    },
+
+
 });
 export default AppStack;
